@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import styled from '@emotion/styled'
 
 function App() {
   return (
@@ -18,9 +19,16 @@ function App() {
         >
           Learn React
         </a>
+          <LoginButton>
+              Test Button
+          </LoginButton>
       </header>
     </div>
   );
 }
 
 export default App;
+
+const LoginButton = styled.button`
+  border-radius: 9px;
+`
