@@ -1,34 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import styled from '@emotion/styled'
+import React, { useState } from "react";
+import { render } from "react-dom";
+import { Router, Link } from "@reach/router";
 
-function App() {
+const App = () => {
+  const themeHook = useState("peru");
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-          <LoginButton>
-              Test Button
-          </LoginButton>
-      </header>
-    </div>
+    <React.StrictMode>
+      <div>
+        <header>
+          <Link to="/">ChatBubble</Link>
+        </header>
+        {/* <Router> */}
+        {/* <SearchParams path="/" /> */}
+        {/* <Details path="/details/:id" /> */}
+        {/* </Router> */}
+      </div>
+    </React.StrictMode>
   );
-}
+};
 
-export default App;
-
-const LoginButton = styled.button`
-  border-radius: 9px;
-`
+render(<App />, document.getElementById("root"));
