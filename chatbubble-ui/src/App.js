@@ -1,19 +1,20 @@
 import React, { useState } from "react";
 import { render } from "react-dom";
 import { Router, Link } from "@reach/router";
+import Auth from "./Auth";
+import Chat from "./Chat";
 
 const App = () => {
-  const themeHook = useState("peru");
   return (
     <React.StrictMode>
       <div>
         <header>
           <Link to="/">ChatBubble</Link>
         </header>
-        {/* <Router> */}
-        {/* <SearchParams path="/" /> */}
-        {/* <Details path="/details/:id" /> */}
-        {/* </Router> */}
+        <Router>
+          <Auth path="/" />
+          <Chat path="/chat" />
+        </Router>
       </div>
     </React.StrictMode>
   );
