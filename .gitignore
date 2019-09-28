@@ -7,6 +7,10 @@
 .idea
 .history
 .env
+.cache
+dist
+coverage
+.vscode
 
 # testing
 /coverage
@@ -24,11 +28,3 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-node_modules/
-.DS_Store
-.cache
-dist
-coverage
-.vscode
-.env
