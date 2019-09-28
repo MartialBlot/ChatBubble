@@ -6,7 +6,7 @@ node_modules
 .pnp.js
 .idea
 .history
-.env
+/chatbubble-api/.env
 .cache
 dist
 coverage
