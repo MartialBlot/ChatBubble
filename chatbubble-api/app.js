@@ -35,7 +35,7 @@ router.post('/signup/:userId', (req, res) => {
         });
 })
 
-router.get('/signin/:userId', (req, res) => {
+router.post('/signin/:userId', (req, res) => {
     const data = req.body
     const userName = req.params.userId
     let path = db.collection('userProfiles').doc(userName);
@@ -45,6 +45,7 @@ router.get('/signin/:userId', (req, res) => {
                 console.log('No user');
             } else {
                 if(data.password === doc.data().password){
+                    console.log(true)
                     admin.auth().createCustomToken(userName)
                         .then(function(customToken) {
                             return res.status(200).json({
