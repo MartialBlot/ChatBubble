@@ -44,7 +44,7 @@ router.get('/signin/:userId', (req, res) => {
             if (!doc.exists) {
                 console.log('No user');
             } else {
-                if(data === doc.data()){
+                if(data.password === doc.data().password){
                     admin.auth().createCustomToken(userName)
                         .then(function(customToken) {
                             return res.status(200).json({
