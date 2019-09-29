@@ -5,7 +5,7 @@ import API from "./Api";
 const Signin = () => {
   const [login, setLogin] = useState([]);
   const [password, setPassword] = useState([]);
-  const [hidden, setHidden] = useState(false);
+  const [hidden, setHidden] = useState(true);
   const [redirect, setRedirect] = useState(false);
 
   const SendSignIn = async () => {
