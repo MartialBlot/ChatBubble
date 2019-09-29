@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { render } from "react-dom";
 import { Router, Link } from "@reach/router";
 // import styled from "@emotion/styled";
-import Auth from "./Auth";
+import Signin from "./Signin";
+import Signup from "./Signup";
+
 import Chat from "./Chat";
 
 const App = () => {
@@ -13,7 +15,8 @@ const App = () => {
           <Link to="/">ChatBubble</Link>
         </header>
         <Router>
-          <Auth path="/" />
+          <Signin path="/" />
+          <Signup path="/signup" />
           <Chat path="/chat" />
         </Router>
       </div>
