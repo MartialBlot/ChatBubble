@@ -38,7 +38,17 @@ router.post('/signup/:userId', (req, res) => {
 router.post('/signin/:userId', (req, res) => {
     const data = req.body
     const userName = req.params.userId
+    let newToken
     let path = db.collection('userProfiles').doc(userName);
+
+    admin.auth().createCustomToken(userName)
+        .then(function(customToken) {
+            newToken = customToken
+        })
+        .catch(function(error) {
+            console.log('Error creating custom token:', error);
+        });
+
     let user = path.get()
         .then(doc => {
             if (!doc.exists) {
@@ -46,21 +56,15 @@ router.post('/signin/:userId', (req, res) => {
             } else {
                 if(data.password === doc.data().password){
                     console.log(true)
-                    admin.auth().createCustomToken(userName)
-                        .then(function(customToken) {
-                            return res.status(200).json({
-                                status: 'Login successful!',
-                                success: true,
-                                token: customToken
-                            });
-                        })
-                        .catch(function(error) {
-                            console.log('Error creating custom token:', error);
-                        });
+                    return res.status(200).json({
+                        status: 'Login successful!',
+                        success: true,
+                        token: newToken
+                    });
+
                 } else {
                     return res.status(200).status('Wrong Login ...')
                 }
-                res.send(doc.data())
             }
         })
         .catch(err => {
