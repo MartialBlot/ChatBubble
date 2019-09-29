@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "@reach/router";
+import { Link, Redirect } from "@reach/router";
 import API from "./Api";
 
 const Signin = () => {
   const [login, setLogin] = useState([]);
   const [password, setPassword] = useState([]);
   const [hidden, setHidden] = useState(false);
+  const [redirect, setRedirect] = useState(false);
 
   const SendSignIn = async () => {
     if (!login || login.length === 0) {
@@ -15,9 +16,11 @@ const Signin = () => {
       return;
     }
     try {
-      const { data } = await API.login(login, password);
-      localStorage.setItem("token", data.token);
-      window.location = "/dashboard";
+      const { data } = await API.login({ login, password });
+      if (data.success) {
+        localStorage.setItem("token", data.token);
+        setRedirect(true);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -26,11 +29,11 @@ const Signin = () => {
   return (
     <div className="container" id="container">
       <div className="form-container sign-in-container">
+        {redirect ? <Redirect to="/chat" /> : null}
         <form
           onSubmit={() => {
             event.preventDefault();
             SendSignIn();
-            // alert("lol fait le");
           }}
         >
           <h1>Sign in</h1>

@@ -15,8 +15,11 @@ const Signup = () => {
     // if (!password || password.length === 0) return;
     try {
       const { data } = await API.signup({ login, email, password });
-      console.log("aijdnwqijdniqwdniqwni");
-      localStorage.setItem("token", data.token);
+      console.log(data);
+      if (data.success) {
+        localStorage.setItem("token", data.token);
+        setRedirect(true);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -30,10 +33,6 @@ const Signup = () => {
           onSubmit={() => {
             event.preventDefault();
             SendSignUp();
-            // console.log({ login });
-            // console.log({ password });
-            // console.log({ email });
-            // alert("lol fait le");
           }}
         >
           <h1>Create Account</h1>

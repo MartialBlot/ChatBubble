@@ -6,21 +6,15 @@ const headers = {
 const burl = "http://localhost:8000/api";
 
 export default {
-  login: function(login, password) {
-    return axios.post(
-      `${burl}/signin`,
-      {
-        login,
-        password
-      },
-      {
-        headers: headers
-      }
-    );
+  login: function(send) {
+    console.log(send);
+    return axios.post(`${burl}/signin/${send.login}`, send, {
+      headers: headers
+    });
   },
 
   signup: function(send) {
-    return axios.post(`${burl}/signup/${headers.login}`, send, {
+    return axios.post(`${burl}/signup/${send.login}`, send, {
       headers: headers
     });
   },
