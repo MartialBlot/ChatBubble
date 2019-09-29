@@ -12,12 +12,13 @@ router.use(bodyParser.urlencoded({
 }));
 
 router.post('/signup/:userId', (req, res) => {
+    console.log(req)
     const data = req.body
     const userName = req.params.userId
     const docRef = db.collection("userProfiles").doc(userName)
 
     let newInfos = docRef.set({
-        "mail" : data.mail,
+        "mail" : data.email,
         "password" : data.password,
     });
 })

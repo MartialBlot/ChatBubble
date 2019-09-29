@@ -2,15 +2,11 @@ const dotenv = require('dotenv').config();
 const express = require('express');
 const server = express();
 const PORT = process.env.PORT || 8000;
+const cors = require('cors');
+
+server.use(cors());
 
 const Router = require('./app');
-
-server.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
 
 async function verifyToken(req, res, next) {
 
