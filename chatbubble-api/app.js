@@ -53,6 +53,10 @@ router.post('/signin/:userId', (req, res) => {
         .then(doc => {
             if (!doc.exists) {
                 console.log('No user');
+                return res.status(200).json({
+                    status: 'Error!',
+                    success: false,
+                });
             } else {
                 if(data.password === doc.data().password){
                     console.log(true)
