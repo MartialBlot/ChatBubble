@@ -20,7 +20,7 @@ export default {
   },
 
   signup: function(send) {
-    return axios.post(`${burl}/signup/${send.login}`, send, {
+    return axios.post(`${burl}/signup/${headers.login}`, send, {
       headers: headers
     });
   },
