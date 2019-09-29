@@ -14,8 +14,9 @@ const Signup = () => {
     if (!password || password.length === 0) return;
     try {
       const { data } = await API.signup({ login, email, password });
-      localStorage.setItem("token", data.token);
-      window.location = "/dashboard";
+      console.log(data);
+      console.log("CA A LAIR OK");
+      // localStorage.setItem("token", data.token);
     } catch (error) {
       console.error(error);
     }
