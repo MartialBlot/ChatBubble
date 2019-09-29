@@ -3,7 +3,7 @@ import axios from "axios";
 const headers = {
   "Content-Type": "application/json"
 };
-const burl = "http://localhost:8000";
+const burl = "http://localhost:8000/api";
 
 export default {
   login: function(login, password) {
@@ -20,7 +20,7 @@ export default {
   },
 
   signup: function(send) {
-    return axios.post(`${burl}/signup/${headers.login}`, send, {
+    return axios.post(`${burl}/signup/${send.login}`, send, {
       headers: headers
     });
   },
