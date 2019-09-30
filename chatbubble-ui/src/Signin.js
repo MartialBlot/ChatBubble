@@ -34,7 +34,7 @@ const Signin = () => {
   return (
     <div className="container" id="container">
       <div className="form-container sign-in-container">
-        {redirect ? <Redirect to="/chat" noThrow /> : null}
+        {redirect ? <Redirect to="/" noThrow /> : null}
         <form
           onSubmit={() => {
             event.preventDefault();
@@ -43,7 +43,8 @@ const Signin = () => {
           }}
         >
           <h1>Sign in</h1>
-          <div className="social-container">
+          <a> </a>
+          {/* <div className="social-container">
             <a href="#" className="social">
               <i className="fab fa-facebook-f"></i>
             </a>
@@ -53,8 +54,8 @@ const Signin = () => {
             <a href="#" className="social">
               <i className="fab fa-linkedin-in"></i>
             </a>
-          </div>
-          <span>or use your account</span>
+          </div> */}
+          {/* <span>or use your account</span> */}
           <input
             type="text"
             placeholder="Login"

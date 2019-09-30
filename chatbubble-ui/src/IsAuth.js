@@ -5,8 +5,8 @@ import Chat from "./Chat";
 import Signin from "./Signin";
 
 const IsAuth = () => {
-  if (API.isAuth()) return <Redirect to="/chat" noThrow />;
-  else return <Signin />;
+  if (!API.isAuth()) return <Redirect to="/signin" noThrow />;
+  else return <Chat />;
 };
 
 export default IsAuth;

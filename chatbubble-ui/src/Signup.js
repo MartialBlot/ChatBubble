@@ -4,6 +4,8 @@ import API from "./Api";
 
 const Signup = () => {
   const [login, setLogin] = useState([]);
+  const [name, setName] = useState([]);
+  const [surname, setSurname] = useState([]);
   const [email, setEmail] = useState([]);
   const [password, setPassword] = useState([]);
   const [hidden, setHidden] = useState(false);
@@ -40,7 +42,7 @@ const Signup = () => {
   return (
     <div className="container" id="container">
       <div className="form-container sign-in-container">
-        {redirect ? <Redirect to="/chat" noThrow /> : null}
+        {redirect ? <Redirect to="/" noThrow /> : null}
         <form
           onSubmit={() => {
             event.preventDefault();
@@ -49,7 +51,8 @@ const Signup = () => {
           }}
         >
           <h1>Create Account</h1>
-          <div className="social-container">
+          <a> </a>
+          {/* <div className="social-container">
             <a href="#" className="social">
               <i className="fab fa-facebook-f"></i>
             </a>
@@ -60,11 +63,23 @@ const Signup = () => {
               <i className="fab fa-linkedin-in"></i>
             </a>
           </div>
-          <span>or use your email for registration</span>
+          <span>or use your email for registration</span> */}
           <input
             type="text"
             placeholder="Login"
             value={login}
+            onChange={e => setLogin(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Name"
+            value={name}
+            onChange={e => setLogin(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Surname"
+            value={surname}
             onChange={e => setLogin(e.target.value)}
           />
           <input
