@@ -7,6 +7,7 @@ const Signin = () => {
   const [password, setPassword] = useState([]);
   const [hidden, setHidden] = useState(true);
   const [redirect, setRedirect] = useState(false);
+  const [notgood, setNotgood] = useState(false);
 
   const SendSignIn = async () => {
     if (!login || login.length === 0) {
@@ -20,6 +21,9 @@ const Signin = () => {
       if (data.success) {
         localStorage.setItem("token", data.token);
         setRedirect(true);
+      } else {
+        setNotgood(true);
+        console.log(data);
       }
     } catch (error) {
       console.error(error);
@@ -29,10 +33,11 @@ const Signin = () => {
   return (
     <div className="container" id="container">
       <div className="form-container sign-in-container">
-        {redirect ? <Redirect to="/chat" /> : null}
+        {redirect ? <Redirect to="/chat" noThrow /> : null}
         <form
           onSubmit={() => {
             event.preventDefault();
+            setNotgood(false);
             SendSignIn();
           }}
         >
@@ -61,6 +66,11 @@ const Signin = () => {
             onChange={e => setPassword(e.target.value)}
             type={hidden ? "password" : "text"}
           />
+          {notgood ? (
+            <div className="Wrong-password">
+              Wrong login or password, try again !
+            </div>
+          ) : null}
           <a
             href=""
             onClick={() => {

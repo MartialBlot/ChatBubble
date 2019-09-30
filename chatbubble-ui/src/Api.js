@@ -7,7 +7,6 @@ const burl = "http://localhost:8000/api";
 
 export default {
   login: function(send) {
-    console.log(send);
     return axios.post(`${burl}/signin/${send.login}`, send, {
       headers: headers
     });

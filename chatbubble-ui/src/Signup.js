@@ -8,17 +8,29 @@ const Signup = () => {
   const [password, setPassword] = useState([]);
   const [hidden, setHidden] = useState(false);
   const [redirect, setRedirect] = useState(false);
+  const [notgood, setNotgood] = useState(false);
 
   const SendSignUp = async () => {
-    // if (!login || login.length === 0) return;
+    if (
+      !login ||
+      login.length === 0 ||
+      !email ||
+      email.length === 0 ||
+      !password ||
+      password.length === 0
+    ) {
+      setNotgood(true);
+      return;
+    }
     // if (!email || email.length === 0) return;
     // if (!password || password.length === 0) return;
     try {
       const { data } = await API.signup({ login, email, password });
-      console.log(data);
       if (data.success) {
         localStorage.setItem("token", data.token);
         setRedirect(true);
+      } else {
+        setNotgood(true);
       }
     } catch (error) {
       console.error(error);
@@ -28,10 +40,11 @@ const Signup = () => {
   return (
     <div className="container" id="container">
       <div className="form-container sign-in-container">
-        {redirect ? <Redirect to="/chat" /> : null}
+        {redirect ? <Redirect to="/chat" noThrow /> : null}
         <form
           onSubmit={() => {
             event.preventDefault();
+            setNotgood(false);
             SendSignUp();
           }}
         >
@@ -66,6 +79,9 @@ const Signup = () => {
             value={password}
             onChange={e => setPassword(e.target.value)}
           />
+          {notgood ? (
+            <div className="Wrong-password">Error, try again !</div>
+          ) : null}
           <button>Sign Up</button>
         </form>
       </div>
