@@ -2,6 +2,7 @@ const express = require('express')
 const server = express()
 const admin = require('./firebase-admin/admin')
 const router = express.Router()
+const bcrypt = require('bcrypt');
 const db = admin.firestore();
 const bodyParser = require('body-parser');
 
@@ -12,8 +13,10 @@ router.use(bodyParser.urlencoded({
 }));
 
 router.post('/signup/:userId', (req, res) => {
-    console.log(req)
-    const data = req.body
+	console.log(req)
+	const saltRounds = 10;	
+	const data = req.body
+	data.password = bcrypt.hashSync(data.password, saltRounds);
     const userName = req.params.userId
     const docRef = db.collection("userProfiles").doc(userName)
 
@@ -37,7 +40,7 @@ router.post('/signup/:userId', (req, res) => {
 
 router.post('/signin/:userId', (req, res) => {
     const data = req.body
-    const userName = req.params.userId
+	const userName = req.params.userId
     let newToken
     let path = db.collection('userProfiles').doc(userName);
 
@@ -58,7 +61,7 @@ router.post('/signin/:userId', (req, res) => {
                     success: false,
                 });
             } else {
-                if(data.password === doc.data().password){
+                if(bcrypt.compareSync(data.password, doc.data().password)){
                     console.log(true)
                     return res.status(200).json({
                         status: 'Login successful!',
@@ -99,5 +102,3 @@ async function verifyToken(req, res, next) {
 
 
 module.exports = router
-
-
