@@ -20,7 +20,7 @@ const Signin = () => {
     try {
       const { data } = await API.login({ login, password });
       if (data.success) {
-        localStorage.setItem("token", data.token);
+        localStorage.setItem("token-chatbubble", data.token);
         setRedirect(true);
       } else {
         setNotgood(true);

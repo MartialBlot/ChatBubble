@@ -19,7 +19,7 @@ export default {
   },
 
   isAuth: function() {
-    return localStorage.getItem("token") !== null;
+    return localStorage.getItem("token-chatbubble") !== null;
   },
 
   logout: function() {
