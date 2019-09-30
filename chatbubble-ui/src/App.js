@@ -4,8 +4,8 @@ import { Router, Link } from "@reach/router";
 // import styled from "@emotion/styled";
 import Signin from "./Signin";
 import Signup from "./Signup";
-
 import Chat from "./Chat";
+import IsAuth from "./IsAuth";
 
 const App = () => {
   return (
@@ -15,10 +15,15 @@ const App = () => {
           <Link to="/">ChatBubble</Link>
         </header>
         <Router>
-          <Signin path="/" />
+          <IsAuth path="/" />
           <Signup path="/signup" />
           <Chat path="/chat" />
         </Router>
+        {/* <Router>
+          <Signin path="/" />
+          <Signup path="/signup" />
+          <Chat path="/chat" />
+        </Router> */}
       </div>
     </React.StrictMode>
   );

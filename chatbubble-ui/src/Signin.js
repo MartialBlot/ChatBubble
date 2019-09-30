@@ -10,12 +10,13 @@ const Signin = () => {
   const [notgood, setNotgood] = useState(false);
 
   const SendSignIn = async () => {
-    if (!login || login.length === 0) {
+    if (!login || login.length === 0 || !password || password.length === 0) {
+      setNotgood(true);
       return;
     }
-    if (!password || password.length === 0) {
-      return;
-    }
+    // if (!password || password.length === 0) {
+    //   return;
+    // }
     try {
       const { data } = await API.login({ login, password });
       if (data.success) {
@@ -23,7 +24,7 @@ const Signin = () => {
         setRedirect(true);
       } else {
         setNotgood(true);
-        console.log(data);
+        // console.log(data);
       }
     } catch (error) {
       console.error(error);
