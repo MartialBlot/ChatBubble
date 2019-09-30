@@ -17,7 +17,7 @@ const App = () => {
         <Router>
           <IsAuth path="/" />
           <Signup path="/signup" />
-          <Chat path="/chat" />
+          <Signin path="/signin" />
         </Router>
         {/* <Router>
           <Signin path="/" />
