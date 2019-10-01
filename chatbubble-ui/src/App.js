@@ -6,6 +6,7 @@ import Signin from "./Signin";
 import Signup from "./Signup";
 import Chat from "./Chat";
 import IsAuth from "./IsAuth";
+import {Loading} from './Loading'
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
           <IsAuth path="/" />
           <Signup path="/signup" />
           <Signin path="/signin" />
+          <Loading path="/loading"/>
         </Router>
         {/* <Router>
           <Signin path="/" />
