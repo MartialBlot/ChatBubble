@@ -13,4 +13,3 @@ server.use('/api', Router)
 server.listen(PORT, () => {
     console.log(`Server Running on port: ${PORT}`);
 });
-

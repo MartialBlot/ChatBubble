@@ -29,6 +29,7 @@ router.post('/signup/:userId', (req, res) => {
         "confirmed" : 0,
     });
 
+	/*sending email*/
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     const msg = {
     to: data.email,
@@ -38,6 +39,7 @@ router.post('/signup/:userId', (req, res) => {
     html: `<a><strong>Welcome to ChatBubble ! Click on the link below to verify your account.</a> <br /> <a href="http://localhost:1234/api/email=${data.login}">Click here</a></div>`,
     };
     sgMail.send(msg);
+	/*end sending email*/
 
     admin.auth().createCustomToken(userName)
         .then(function(customToken) {
