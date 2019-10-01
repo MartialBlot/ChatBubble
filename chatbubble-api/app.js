@@ -5,6 +5,7 @@ const router = express.Router()
 const bcrypt = require('bcrypt');
 const db = admin.firestore();
 const bodyParser = require('body-parser');
+const sgMail = require('@sendgrid/mail');
 
 router.use(bodyParser.json());
 
@@ -19,11 +20,24 @@ router.post('/signup/:userId', (req, res) => {
 	data.password = bcrypt.hashSync(data.password, saltRounds);
     const userName = req.params.userId
     const docRef = db.collection("userProfiles").doc(userName)
-
     let newInfos = docRef.set({
+        "login" : data.login,
+        "name" : data.name,
+        "surname" : data.surname,
         "mail" : data.email,
         "password" : data.password,
+        "confirmed" : 0,
     });
+
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const msg = {
+    to: data.email,
+    from: 'no-reply@chatbubble.tk',
+    subject: 'Chatbubble - Signup',
+    text: `Welcome to ChatBubble ! Click on the link below to verify your account. http://localhost:1234/api/email=${data.login}`,
+    html: `<strong>Welcome to ChatBubble ! Click on the link below to verify your account.</strong><br /><a href="http://localhost:1234/api/email=${data.login}">Click here</a>`,
+    };
+    sgMail.send(msg);
 
     admin.auth().createCustomToken(userName)
         .then(function(customToken) {
@@ -78,7 +92,6 @@ router.post('/signin/:userId', (req, res) => {
             console.log('Connection error', err);
         });
 })
-
 
 async function verifyToken(req, res, next) {
 
