@@ -35,7 +35,7 @@ router.post('/signup/:userId', (req, res) => {
     from: 'no-reply@chatbubble.tk',
     subject: 'Chatbubble - Signup',
     text: `Welcome to ChatBubble ! Click on the link below to verify your account. http://localhost:1234/api/email=${data.login}`,
-    html: `<strong>Welcome to ChatBubble ! Click on the link below to verify your account.</strong><br /><a href="http://localhost:1234/api/email=${data.login}">Click here</a>`,
+    html: `<a><strong>Welcome to ChatBubble ! Click on the link below to verify your account.</a> <br /> <a href="http://localhost:1234/api/email=${data.login}">Click here</a></div>`,
     };
     sgMail.send(msg);
 
