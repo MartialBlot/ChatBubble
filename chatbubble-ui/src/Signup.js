@@ -8,7 +8,8 @@ const Signup = () => {
   const [surname, setSurname] = useState([]);
   const [email, setEmail] = useState([]);
   const [password, setPassword] = useState([]);
-  const [hidden, setHidden] = useState(false);
+  const [password2, setPassword2] = useState([]);
+  // const [hidden, setHidden] = useState(false);
   const [redirect, setRedirect] = useState(false);
   const [notgood, setNotgood] = useState(false);
 
@@ -16,18 +17,23 @@ const Signup = () => {
     if (
       !login ||
       login.length === 0 ||
+      !name ||
+      name.length === 0 ||
+      !surname ||
+      surname.length === 0 ||
       !email ||
       email.length === 0 ||
       !password ||
-      password.length === 0
+      password.length === 0 ||
+      !password2 ||
+      password2.length === 0 ||
+      password !== password2
     ) {
       setNotgood(true);
       return;
     }
-    // if (!email || email.length === 0) return;
-    // if (!password || password.length === 0) return;
     try {
-      const { data } = await API.signup({ login, email, password });
+      const { data } = await API.signup({ login, name, surname, email, password });
       if (data.success) {
         localStorage.setItem("token-chatbubble", data.token);
         setRedirect(true);
@@ -51,7 +57,6 @@ const Signup = () => {
           }}
         >
           <h1>Create Account</h1>
-          <a> </a>
           {/* <div className="social-container">
             <a href="#" className="social">
               <i className="fab fa-facebook-f"></i>
@@ -74,13 +79,13 @@ const Signup = () => {
             type="text"
             placeholder="Name"
             value={name}
-            onChange={e => setLogin(e.target.value)}
+            onChange={e => setName(e.target.value)}
           />
           <input
             type="text"
             placeholder="Surname"
             value={surname}
-            onChange={e => setLogin(e.target.value)}
+            onChange={e => setSurname(e.target.value)}
           />
           <input
             type="email"
@@ -93,6 +98,12 @@ const Signup = () => {
             placeholder="Password"
             value={password}
             onChange={e => setPassword(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Verify password"
+            value={password2}
+            onChange={e => setPassword2(e.target.value)}
           />
           {notgood ? (
             <div className="Wrong-password">Error, try again !</div>
@@ -107,7 +118,7 @@ const Signup = () => {
             <p>
               To keep connected with us please login with your personal info
             </p>
-            <Link to="/">
+            <Link to="/signin">
               <button className="ghost" id="signIn">
                 Sign In
               </button>
