@@ -70,7 +70,7 @@ export const ChatComponent = () => {
 const WrapperChat = styled.div`
   width: 1200px;
   height: 600px;
-  border: solid 1px black;
+  border: solid 1px grey;
   border-radius: 9px;
   padding: 15px;
   display: flex;
@@ -79,13 +79,14 @@ const WrapperChat = styled.div`
 
 const ContactList = styled.div`
   text-align: center;
-  border-right: solid 2px black;
+  border-right: solid 2px grey;
   padding: 15px;
   width: 35%;
 `
 
 const ConversationBox = styled.div`
-  border: solid 1px black;
+  border: solid 1px grey;
+  border-radius: 9px;
   height: 92%;
 `
 
@@ -106,7 +107,8 @@ const SendButton = styled.button`
 `
 
 const YourContactBox = styled.div`
-  border: solid 1px black;
+  border: solid 1px grey;
+  border-radius: 9px;
   height: 82%;
   margin-top: 15px;
 `
