@@ -32,6 +32,7 @@ const Signup = () => {
       password2.length === 0 ||
       password !== password2
     ) {
+      setShowLoading(false);
       setNotgood(true);
       return;
     }
@@ -45,8 +46,10 @@ const Signup = () => {
       });
       if (data.success) {
         localStorage.setItem("token-chatbubble", data.token);
+        setShowLoading(false);
         setRedirect(true);
       } else {
+        setShowLoading(false);
         setNotgood(true);
       }
     } catch (error) {
