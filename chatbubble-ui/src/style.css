@@ -22,7 +22,7 @@ body {
   flex-direction: column;
   font-family: "Montserrat", sans-serif;
   height: 100vh;
-  margin: 0px 0px 0px 0px;
+  margin: 0px;
 }
 
 h1 {
@@ -91,6 +91,7 @@ form {
 }
 
 input {
+  box-sizing: border-box;
   background-color: #eee;
   border: none;
   padding: 12px 15px;
@@ -198,6 +199,7 @@ input {
 }
 
 .overlay-panel {
+  box-sizing: border-box;
   position: absolute;
   display: flex;
   align-items: center;
