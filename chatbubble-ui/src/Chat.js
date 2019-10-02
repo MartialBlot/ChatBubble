@@ -124,4 +124,5 @@ const SearchAddFriend = styled.div`
 
 const BackButton = styled.button`
   margin-left: 10px;
+  cursor: pointer;
 `
