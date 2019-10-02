@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, Redirect } from "@reach/router";
 import API from "./Api";
+import Modal from "./Modal";
+import { Loading } from "./Loading";
 
 const Signup = () => {
   const [login, setLogin] = useState([]);
@@ -12,6 +14,7 @@ const Signup = () => {
   // const [hidden, setHidden] = useState(false);
   const [redirect, setRedirect] = useState(false);
   const [notgood, setNotgood] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
 
   const SendSignUp = async () => {
     if (
@@ -33,7 +36,13 @@ const Signup = () => {
       return;
     }
     try {
-      const { data } = await API.signup({ login, name, surname, email, password });
+      const { data } = await API.signup({
+        login,
+        name,
+        surname,
+        email,
+        password
+      });
       if (data.success) {
         localStorage.setItem("token-chatbubble", data.token);
         setRedirect(true);
@@ -49,9 +58,15 @@ const Signup = () => {
     <div className="container" id="container">
       <div className="form-container sign-in-container">
         {redirect ? <Redirect to="/" noThrow /> : null}
+        {showLoading ? (
+          <Modal>
+            <Loading />
+          </Modal>
+        ) : null}
         <form
           onSubmit={() => {
             event.preventDefault();
+            setShowLoading(true);
             setNotgood(false);
             SendSignUp();
           }}

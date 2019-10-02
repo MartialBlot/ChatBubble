@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, Redirect } from "@reach/router";
 import API from "./Api";
+import { Loading } from "./Loading";
+import Modal from "./Modal";
 
 const Signin = () => {
   const [login, setLogin] = useState([]);
@@ -8,9 +10,11 @@ const Signin = () => {
   const [hidden, setHidden] = useState(true);
   const [redirect, setRedirect] = useState(false);
   const [notgood, setNotgood] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
 
   const SendSignIn = async () => {
     if (!login || login.length === 0 || !password || password.length === 0) {
+      setShowLoading(false);
       setNotgood(true);
       return;
     }
@@ -21,9 +25,12 @@ const Signin = () => {
       const { data } = await API.login({ login, password });
       if (data.success) {
         localStorage.setItem("token-chatbubble", data.token);
+        setShowLoading(false);
         setRedirect(true);
       } else {
+        setShowLoading(false);
         setNotgood(true);
+
         // console.log(data);
       }
     } catch (error) {
@@ -35,9 +42,15 @@ const Signin = () => {
     <div className="container" id="container">
       <div className="form-container sign-in-container">
         {redirect ? <Redirect to="/" noThrow /> : null}
+        {showLoading ? (
+          <Modal>
+            <Loading />
+          </Modal>
+        ) : null}
         <form
           onSubmit={() => {
             event.preventDefault();
+            setShowLoading(true);
             setNotgood(false);
             SendSignIn();
           }}

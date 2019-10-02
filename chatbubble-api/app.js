@@ -71,14 +71,14 @@ router.post('/signin/:userId', (req, res) => {
     let user = path.get()
         .then(doc => {
             if (!doc.exists) {
-                console.log('No user');
+                console.log("User doesn't exist");
                 return res.status(200).json({
-                    status: 'Error!',
+                    status: "User doesn't exist",
                     success: false,
                 });
             } else {
                 if(bcrypt.compareSync(data.password, doc.data().password)){
-                    console.log(true)
+                    console.log('Login successful!')
                     return res.status(200).json({
                         status: 'Login successful!',
                         success: true,
@@ -86,7 +86,11 @@ router.post('/signin/:userId', (req, res) => {
                     });
 
                 } else {
-                    return res.status(200).status('Wrong Login ...')
+					console.log("Wrong password !");
+                    return res.status(200).json({
+                        status: 'Wrong password !',
+                        success: false,
+                    });
                 }
             }
         })
