@@ -37,7 +37,7 @@ export const ChatComponent = () => {
 
     return <WrapperChat>
         <ContactList>
-            <h1>Vos contactes</h1>
+            <h1>Vos contacts</h1>
             <YourContactBox>
 
             </YourContactBox>
@@ -45,7 +45,7 @@ export const ChatComponent = () => {
                 hiddenSearchFriend ? <AddFriendButton onClick={() => {
                     setHiddenSearchFriend(false)
                 }}>
-                    Ajouter un contacte
+                    Ajouter un contact
                 </AddFriendButton> : <SearchAddFriend>
                     <input type='text' placeholder="recherche d'une personne"/>
                     <BackButton onClick={() => {
