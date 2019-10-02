@@ -4,7 +4,7 @@ import { Router, Link } from "@reach/router";
 // import styled from "@emotion/styled";
 import Signin from "./Signin";
 import Signup from "./Signup";
-import Chat from "./Chat";
+import Chat, {ChatComponent} from './Chat'
 import IsAuth from "./IsAuth";
 import {Loading} from './Loading'
 
@@ -20,6 +20,7 @@ const App = () => {
           <Signup path="/signup" />
           <Signin path="/signin" />
           <Loading path="/loading"/>
+          <ChatComponent path="/chat"/>
         </Router>
         {/* <Router>
           <Signin path="/" />
