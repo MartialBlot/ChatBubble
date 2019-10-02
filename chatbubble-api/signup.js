@@ -21,8 +21,7 @@ router.post('/signup/:userId', (req, res) => {
     const docRef = db.collection("userProfiles").doc(userName)
     let newInfos = docRef.set({
         "login" : data.login,
-        "name" : data.name,
-        "surname" : data.surname,
+        "fullname" : data.fullname,
         "mail" : data.email,
         "password" : data.password,
         "confirmed" : 0,

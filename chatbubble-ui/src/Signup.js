@@ -6,8 +6,7 @@ import { Loading } from "./Loading";
 
 const Signup = () => {
   const [login, setLogin] = useState([]);
-  const [name, setName] = useState([]);
-  const [surname, setSurname] = useState([]);
+  const [fullname, setFullname] = useState([]);
   const [email, setEmail] = useState([]);
   const [password, setPassword] = useState([]);
   const [password2, setPassword2] = useState([]);
@@ -20,10 +19,8 @@ const Signup = () => {
     if (
       !login ||
       login.length === 0 ||
-      !name ||
-      name.length === 0 ||
-      !surname ||
-      surname.length === 0 ||
+      !fullname ||
+      fullname.length === 0 ||
       !email ||
       email.length === 0 ||
       !password ||
@@ -39,8 +36,7 @@ const Signup = () => {
     try {
       const { data } = await API.signup({
         login,
-        name,
-        surname,
+        fullname,
         email,
         password
       });
@@ -95,15 +91,9 @@ const Signup = () => {
           />
           <input
             type="text"
-            placeholder="Name"
-            value={name}
-            onChange={e => setName(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Surname"
-            value={surname}
-            onChange={e => setSurname(e.target.value)}
+            placeholder="Full name"
+            value={fullname}
+            onChange={e => setFullname(e.target.value)}
           />
           <input
             type="email"
