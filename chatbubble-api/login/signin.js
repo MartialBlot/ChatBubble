@@ -47,7 +47,7 @@ router.post('/signin/:userId', (req, res) => {
                         status: 'Wrong password !',
                         success: false,
                     });}
-                if (doc.data().confirmed === 0) {
+                if (doc.data().confirmed === false) {
                     console.log('Account not verified !')
                     return res.status(200).json({
                         status: 'Account not verified !',
