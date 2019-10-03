@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react'
-import {Redirect} from '@reach/router'
+import {Link, Redirect} from '@reach/router'
 import API from './Api'
 import styled from '@emotion/styled'
 
@@ -10,8 +10,11 @@ const Chat = () => {
     return (
         <div>
             <div>
-                <h1>Chat</h1>
                 <h2>You are connected !</h2>
+                <h1><Link to="/chat">Click here to access the chat!</Link></h1>
+                <br/>
+                <br/>
+
             </div>
             {redirect ? <Redirect to="/" noThrow/> : null}
             <div>

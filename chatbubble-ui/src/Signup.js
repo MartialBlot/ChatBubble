@@ -110,12 +110,16 @@ const Signup = () => {
           />
           <input
             type="password"
+            pattern="(?=.*\d)(?=.*[A-z]).{8,}"
+            required title="Must contain at least one letter, one number and 8 characters"
             placeholder="Password"
             value={password}
             onChange={e => setPassword(e.target.value)}
           />
           <input
             type="password"
+            pattern="(?=.*\d)(?=.*[A-z]).{8,}"
+            required title="Must contain at least one letter, one number and 8 characters"
             placeholder="Verify password"
             value={password2}
             onChange={e => setPassword2(e.target.value)}
