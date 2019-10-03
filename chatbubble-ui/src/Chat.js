@@ -37,8 +37,14 @@ export default Chat
 export const ChatComponent = () => {
 
     const [hiddenSearchFriend, setHiddenSearchFriend] = useState(true)
+    const [auth, setAuth] = useState(true)
+
+    useEffect(() => {
+        if (!API.isAuth()){setAuth(false)};
+      }, []);
 
     return <WrapperChat>
+        {auth ? <Redirect to="/signin" noThrow /> : null}
         <ContactList>
             <h1>Vos contacts</h1>
             <YourContactBox>
