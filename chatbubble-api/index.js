@@ -8,8 +8,9 @@ server.use(cors());
 
 const signin = require('./login/signin');
 const signup = require('./login/signup');
+const verifymail = require('./login/verifymail');
 
-server.use('/api', signin, signup)
+server.use('/api', signin, signup, verifymail)
 
 server.listen(PORT, () => {
     console.log(`Server Running on port: ${PORT}`);

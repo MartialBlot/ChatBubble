@@ -18,6 +18,12 @@ export default {
     });
   },
 
+  verifyemail: function(send) {
+    return axios.put(`${burl}/verify/${send.id}`, send, {
+      headers: headers
+    });
+  },
+
   isAuth: function() {
     return localStorage.getItem("token-chatbubble") !== null;
   },

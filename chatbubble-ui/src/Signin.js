@@ -11,6 +11,8 @@ const Signin = () => {
   const [redirect, setRedirect] = useState(false);
   const [notgood, setNotgood] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
+  const [message, setMessage] = useState('Wrong login or password, try again !');
+
 
   const SendSignIn = async () => {
     if (!login || login.length === 0 || !password || password.length === 0) {
@@ -28,6 +30,11 @@ const Signin = () => {
         setShowLoading(false);
         setRedirect(true);
       } else {
+        if (data.status) {
+          setMessage(data.status)}
+        else {
+          setMessage('Wrong login or password, try again !')}
+        
         setShowLoading(false);
         setNotgood(true);
 
@@ -83,7 +90,7 @@ const Signin = () => {
           />
           {notgood ? (
             <div className="Wrong-password">
-              Wrong login or password, try again !
+              {message}
             </div>
           ) : null}
           <a

@@ -34,15 +34,27 @@ router.post('/signin/:userId', (req, res) => {
                     success: false,
                 });
             } else {
-                if(bcrypt.compareSync(data.password, doc.data().password)){
-                    console.log('Login successful!')
+                if (data.password && doc.data().password && bcrypt.compareSync(data.password, doc.data().password) && doc.data().confirmed === 1){
+                    console.log('Login successful !')
                     return res.status(200).json({
                         status: 'Login successful!',
                         success: true,
                         token: newToken
+                    });}
+                if (!data.password || !doc.data().password || !bcrypt.compareSync(data.password, doc.data().password)){
+                    console.log("Wrong password !");
+                    return res.status(200).json({
+                        status: 'Wrong password !',
+                        success: false,
+                    });}
+                if (doc.data().confirmed === 0) {
+                    console.log('Account not verified !')
+                    return res.status(200).json({
+                        status: 'Account not verified !',
+                        success: false,
                     });
-
-                } else {
+                }
+                else {
 					console.log("Wrong password !");
                     return res.status(200).json({
                         status: 'Wrong password !',

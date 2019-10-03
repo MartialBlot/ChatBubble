@@ -41,7 +41,7 @@ const Signup = () => {
         password
       });
       if (data.success) {
-        localStorage.setItem("token-chatbubble", data.token);
+        // localStorage.setItem("token-chatbubble", data.token);
         setShowLoading(false);
         setRedirect(true);
       } else {

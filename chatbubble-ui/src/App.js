@@ -4,6 +4,8 @@ import { Router, Link } from "@reach/router";
 // import styled from "@emotion/styled";
 import Signin from "./Signin";
 import Signup from "./Signup";
+import VerifyEmail from "./VerifyEmail";
+
 import Chat, {ChatComponent} from './Chat'
 import IsAuth from "./IsAuth";
 import {Loading} from './Loading'
@@ -21,12 +23,8 @@ const App = () => {
           <Signin path="/signin" />
           <Loading path="/loading"/>
           <ChatComponent path="/chat"/>
+          <VerifyEmail path="/verify/:identity" />
         </Router>
-        {/* <Router>
-          <Signin path="/" />
-          <Signup path="/signup" />
-          <Chat path="/chat" />
-        </Router> */}
       </div>
     </React.StrictMode>
   );

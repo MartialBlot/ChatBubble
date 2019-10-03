@@ -33,18 +33,20 @@ router.post('/signup/:userId', (req, res) => {
     to: data.email,
     from: 'no-reply@chatbubble.tk',
     subject: 'Chatbubble - Signup',
-    text: `Welcome to ChatBubble ! Click on the link below to verify your account. http://localhost:1234/api/email=${data.login}`,
-    html: `<a><strong>Welcome to ChatBubble ! Click on the link below to verify your account.</a> <br /> <a href="http://localhost:1234/api/email=${data.login}">Click here</a></div>`,
+    text: `Welcome to ChatBubble ! Click on the link below to verify your account. http://localhost:1234/verify/${data.login}`,
+    html: `<a><strong>Welcome to ChatBubble ! Click on the link below to verify your account.</a> <br /> <a href="http://localhost:1234/verify/${data.login}">Click here</a></div>`,
     };
     sgMail.send(msg);
 	/*end sending email*/
+
+    // a refaire sans token
 
     admin.auth().createCustomToken(userName)
         .then(function(customToken) {
             return res.status(200).json({
                 status: 'Login successful!',
                 success: true,
-                token: customToken
+                // token: customToken
             });
         })
         .catch(function(error) {
