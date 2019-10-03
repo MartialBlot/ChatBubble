@@ -15,7 +15,7 @@ router.put('/verify/:userId', async (req, res) => {
         const verifyid = req.params.userId
         let path = db.collection('userProfiles').doc(verifyid);
         if (!verifyid) throw new Error('id is blank');
-        const verify = path.update({ confirmed: 1 });
+        const verify = path.update({ confirmed: true });
         if (verify) {
             res.status(200).json({
                 status: "Account verified !",

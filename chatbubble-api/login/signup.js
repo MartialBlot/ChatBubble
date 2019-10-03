@@ -45,7 +45,7 @@ router.post('/signup/:userId', (req, res) => {
                 "fullname" : data.fullname,
                 "mail" : data.email,
                 "password" : data.password,
-                "confirmed" : 0,
+                "confirmed" : false,
                 });
         
                 /*sending email*/

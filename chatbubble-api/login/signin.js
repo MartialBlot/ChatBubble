@@ -34,7 +34,7 @@ router.post('/signin/:userId', (req, res) => {
                     success: false,
                 });
             } else {
-                if (data.password && doc.data().password && bcrypt.compareSync(data.password, doc.data().password) && doc.data().confirmed === 1){
+                if (data.password && doc.data().password && bcrypt.compareSync(data.password, doc.data().password) && doc.data().confirmed === true){
                     console.log('Login successful !')
                     return res.status(200).json({
                         status: 'Login successful!',
