@@ -16,6 +16,7 @@ const Signin = () => {
 
   const SendSignIn = async () => {
     if (!login || login.length === 0 || !password || password.length === 0) {
+      setMessage('Login or password is empty !')
       setShowLoading(false);
       setNotgood(true);
       return;

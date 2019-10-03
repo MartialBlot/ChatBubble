@@ -19,39 +19,66 @@ router.post('/signup/:userId', (req, res) => {
 	data.password = bcrypt.hashSync(data.password, saltRounds);
     const userName = req.params.userId
     const docRef = db.collection("userProfiles").doc(userName)
-    let newInfos = docRef.set({
+    let test;
+    let user = docRef.get()
+        .then(doc => {
+            if (doc.exists) {
+                console.log("User already exist");
+                return res.status(200).json({
+                    status: "User already exist",
+                    success: false,
+                });
+            }
+            // email?
+            // if (data.password && doc.data().password && bcrypt.compareSync(data.password, doc.data().password) && doc.data().confirmed === 1){
+            //     console.log('Login successful !')
+            //     return res.status(200).json({
+            //         status: 'Login successful!',
+            //         success: true,
+            //         token: newToken
+            //     });
+            // }
+            test = 1;
+        })
+        .catch(err => {
+            console.log('Connection error', err);
+        });
+    if (test === 1)
+    {
+        let newInfos = docRef.set({
         "login" : data.login,
         "fullname" : data.fullname,
         "mail" : data.email,
         "password" : data.password,
         "confirmed" : 0,
-    });
-
-	/*sending email*/
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-    const msg = {
-    to: data.email,
-    from: 'no-reply@chatbubble.tk',
-    subject: 'Chatbubble - Signup',
-    text: `Welcome to ChatBubble ! Click on the link below to verify your account. http://localhost:1234/verify/${data.login}`,
-    html: `<a><strong>Welcome to ChatBubble ! Click on the link below to verify your account.</a> <br /> <a href="http://localhost:1234/verify/${data.login}">Click here</a></div>`,
-    };
-    sgMail.send(msg);
-	/*end sending email*/
-
-    // a refaire sans token
-
-    admin.auth().createCustomToken(userName)
-        .then(function(customToken) {
-            return res.status(200).json({
-                status: 'Login successful!',
-                success: true,
-                // token: customToken
-            });
-        })
-        .catch(function(error) {
-            console.log('Error creating custom token:', error);
         });
+
+        /*sending email*/
+        sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+        const msg = {
+        to: data.email,
+        from: 'no-reply@chatbubble.tk',
+        subject: 'Chatbubble - Signup',
+        text: `Welcome to ChatBubble ! Click on the link below to verify your account. http://localhost:1234/verify/${data.login}`,
+        html: `<a><strong>Welcome to ChatBubble ! Click on the link below to verify your account.</a> <br /> <a href="http://localhost:1234/verify/${data.login}">Click here</a></div>`,
+        };
+        sgMail.send(msg);
+        /*end sending email*/
+
+        // a refaire sans token
+
+        admin.auth().createCustomToken(userName)
+            .then(function(customToken) {
+                return res.status(200).json({
+                    status: 'Login successful!',
+                    success: true,
+                    // token: customToken
+                });
+            })
+            .catch(function(error) {
+                console.log('Error creating custom token:', error);
+            });
+        }
 })
 
 module.exports = router

@@ -14,6 +14,7 @@ const Signup = () => {
   const [redirect, setRedirect] = useState(false);
   const [notgood, setNotgood] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
+  const [message, setMessage] = useState('Error, please try again !');
 
   const SendSignUp = async () => {
     if (
@@ -29,6 +30,7 @@ const Signup = () => {
       password2.length === 0 ||
       password !== password2
     ) {
+      setMessage('Please fill all the fields !')
       setShowLoading(false);
       setNotgood(true);
       return;
@@ -45,6 +47,11 @@ const Signup = () => {
         setShowLoading(false);
         setRedirect(true);
       } else {
+        if(data.status){
+          setMessage(data.status);}
+        else{
+          setMessage('Error, please try again !');}
+
         setShowLoading(false);
         setNotgood(true);
       }
@@ -114,7 +121,9 @@ const Signup = () => {
             onChange={e => setPassword2(e.target.value)}
           />
           {notgood ? (
-            <div className="Wrong-password">Error, try again !</div>
+            <div className="Wrong-password">
+              {message}
+            </div>
           ) : null}
           <button>Sign Up</button>
         </form>
