@@ -13,10 +13,11 @@ router.use(bodyParser.urlencoded({
 router.put('/verify/:userId', async (req, res) => {
     try {
         const verifyid = req.params.userId
-        let path = db.collection('userProfiles').doc(verifyid);
         if (!verifyid) throw new Error('id is blank');
-        const verify = path.update({ confirmed: true });
-        if (verify) {
+        let path = db.collection('userProfiles').doc(verifyid);
+        const verify2 = path.update({ confirmed: true })
+        .then(verify => {
+        if (verify.exists) {
             res.status(200).json({
                 status: "Account verified !",
                 success: true,
@@ -27,9 +28,19 @@ router.put('/verify/:userId', async (req, res) => {
                 success: true,
             });
         }
-    } catch(error){
+    }) .catch(error => {
         console.log('Connection error', error);
-    }
+        res.status(200).json({
+            status: "Error : Account not verified !",
+            success: true,
+        });
     });
+} catch(error) {
+    console.log('Connection error', error);
+    res.status(200).json({
+        status: "Error : Account not verified !",
+        success: true,
+    });
+}})
 
 module.exports = router
