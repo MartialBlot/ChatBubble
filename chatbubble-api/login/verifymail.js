@@ -14,7 +14,7 @@ router.put('/verify/:userId', async (req, res) => {
     try {
         const verifyid = req.params.userId
         if (!verifyid) throw new Error('id is blank');
-        let path = db.collection('userProfiles').doc(verifyid);
+		let path = db.collection('userProfiles').doc(verifyid);
         const verify2 = path.update({ confirmed: true })
         .then(verify => {
         if (verify.exists) {

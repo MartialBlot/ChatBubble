@@ -7,16 +7,20 @@ import Modal from "./Modal";
 const Signin = () => {
   const [login, setLogin] = useState([]);
   const [password, setPassword] = useState([]);
+  const [email, setEmail] = useState([]);
+
   const [hidden, setHidden] = useState(true);
   const [redirect, setRedirect] = useState(false);
   const [notgood, setNotgood] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
-  const [message, setMessage] = useState('Wrong login or password, try again !');
-
+  const [message, setMessage] = useState(
+    "Wrong login or password, try again !"
+  );
+  const [forgot, setForgot] = useState(false);
 
   const SendSignIn = async () => {
     if (!login || login.length === 0 || !password || password.length === 0) {
-      setMessage('Login or password is empty !')
+      setMessage("Login or password is empty !");
       setShowLoading(false);
       setNotgood(true);
       return;
@@ -32,10 +36,11 @@ const Signin = () => {
         setRedirect(true);
       } else {
         if (data.status) {
-          setMessage(data.status)}
-        else {
-          setMessage('Wrong login or password, try again !')}
-        
+          setMessage(data.status);
+        } else {
+          setMessage("Wrong login or password, try again !");
+        }
+
         setShowLoading(false);
         setNotgood(true);
 
@@ -53,6 +58,40 @@ const Signin = () => {
         {showLoading ? (
           <Modal>
             <Loading />
+          </Modal>
+        ) : null}
+        {forgot ? (
+          <Modal>
+            <div>
+              <form
+                onSubmit={() => {
+                  event.preventDefault();
+                  // setShowLoading(true);
+                  // setNotgood(false);
+                  // SendSignIn();
+                }}
+              >
+                <h1>Forgotten your password?</h1>
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                />
+                <button>Reset your password</button>
+                <br />
+                <button
+                  href="#"
+                  onClick={() => {
+                    event.preventDefault();
+                    setForgot(false);
+                  }}
+                >
+                  Return
+                </button>
+                <br />
+              </form>
+            </div>
           </Modal>
         ) : null}
         <form
@@ -89,11 +128,7 @@ const Signin = () => {
             onChange={e => setPassword(e.target.value)}
             type={hidden ? "password" : "text"}
           />
-          {notgood ? (
-            <div className="Wrong-password">
-              {message}
-            </div>
-          ) : null}
+          {notgood ? <div className="Wrong-password">{message}</div> : null}
           <a
             href=""
             onClick={() => {
@@ -104,7 +139,15 @@ const Signin = () => {
             Show/Hide password
           </a>
           <button>Sign In</button>
-          <a href="#">Forgot your password?</a>
+          <a
+            href="#"
+            onClick={() => {
+              event.preventDefault();
+              setForgot(true);
+            }}
+          >
+            Forgotten your password?
+          </a>
         </form>
       </div>
       <div className="overlay-container">

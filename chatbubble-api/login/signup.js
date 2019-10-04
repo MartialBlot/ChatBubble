@@ -13,7 +13,7 @@ router.use(bodyParser.urlencoded({
 }));
 
 router.post('/signup/:userId', (req, res) => {
-	// console.log(req)
+	console.log(req)
 	const saltRounds = 10;	
 	const data = req.body
 	data.password = bcrypt.hashSync(data.password, saltRounds);
