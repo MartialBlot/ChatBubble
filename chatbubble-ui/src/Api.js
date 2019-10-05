@@ -28,6 +28,10 @@ export default {
     return localStorage.getItem("token-chatbubble") !== null;
   },
 
+  getAllUsers: function() {
+    return axios.get(`${burl}/users`)
+  },
+
   logout: function() {
     localStorage.clear();
   }

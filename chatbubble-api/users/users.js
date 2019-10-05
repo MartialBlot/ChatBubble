@@ -14,13 +14,13 @@ router.use(
 router.get("/users", (req, res) => {
   let path = db.collection("userProfiles");
   let users = [];
-
   path.get().then(function(querySnapshot) {
     querySnapshot.forEach(function(doc) {
       users.push(doc.data());
     });
-    res.status(200).json({
-      users: user
+    return res.status(200).json({
+      users: users,
+      success: true
     });
   });
 });
@@ -31,7 +31,8 @@ router.get("/users/:userId", (req, res) => {
 
   path.get().then(doc => {
     res.status(200).json({
-      user: doc.data()
+      user: doc.data(),
+      success: true
     });
   });
 });
