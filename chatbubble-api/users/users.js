@@ -85,8 +85,6 @@ router.post("/users", (req, res) => {
 
 router.put("/users/:userId", async (req, res) => {
   try {
-    const token = verifyIdToken(req.params.userId);
-    console.log(token);
     const verifyid = req.params.userId;
     if (!verifyid) throw new Error("id is blank");
     const data = req.body;
