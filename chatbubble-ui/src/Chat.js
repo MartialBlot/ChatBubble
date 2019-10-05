@@ -78,7 +78,7 @@ export const ChatComponent = () => {
             setRedirect(true);
           }}
         >
-          >Logout
+          Logout
         </LogoutButton>
         <SettingsButton
           onClick={() => {
