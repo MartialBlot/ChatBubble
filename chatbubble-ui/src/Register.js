@@ -4,7 +4,7 @@ import API from "./Api";
 import Modal from "./Modal";
 import { Loading } from "./Loading";
 
-const Signup = () => {
+const Register = () => {
   const [login, setLogin] = useState([]);
   const [fullname, setFullname] = useState([]);
   const [email, setEmail] = useState([]);
@@ -14,9 +14,9 @@ const Signup = () => {
   const [redirect, setRedirect] = useState(false);
   const [notgood, setNotgood] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
-  const [message, setMessage] = useState('Error, please try again !');
+  const [message, setMessage] = useState("Error, please try again !");
 
-  const SendSignUp = async () => {
+  const SendLogin = async () => {
     if (
       !login ||
       login.length === 0 ||
@@ -30,13 +30,13 @@ const Signup = () => {
       password2.length === 0 ||
       password !== password2
     ) {
-      setMessage('Please fill all the fields !')
+      setMessage("Please fill all the fields !");
       setShowLoading(false);
       setNotgood(true);
       return;
     }
     try {
-      const { data } = await API.signup({
+      const { data } = await API.register({
         login,
         fullname,
         email,
@@ -47,10 +47,11 @@ const Signup = () => {
         setShowLoading(false);
         setRedirect(true);
       } else {
-        if(data.status){
-          setMessage(data.status);}
-        else{
-          setMessage('Error, please try again !');}
+        if (data.status) {
+          setMessage(data.status);
+        } else {
+          setMessage("Error, please try again !");
+        }
 
         setShowLoading(false);
         setNotgood(true);
@@ -74,7 +75,7 @@ const Signup = () => {
             event.preventDefault();
             setShowLoading(true);
             setNotgood(false);
-            SendSignUp();
+            SendLogin();
           }}
         >
           <h1>Create Account</h1>
@@ -111,7 +112,8 @@ const Signup = () => {
           <input
             type="password"
             pattern="(?=.*\d)(?=.*[A-z]).{8,}"
-            required title="Must contain at least one letter, one number and 8 characters"
+            required
+            title="Must contain at least one letter, one number and 8 characters"
             placeholder="Password"
             value={password}
             onChange={e => setPassword(e.target.value)}
@@ -119,16 +121,13 @@ const Signup = () => {
           <input
             type="password"
             pattern="(?=.*\d)(?=.*[A-z]).{8,}"
-            required title="Must contain at least one letter, one number and 8 characters"
+            required
+            title="Must contain at least one letter, one number and 8 characters"
             placeholder="Verify password"
             value={password2}
             onChange={e => setPassword2(e.target.value)}
           />
-          {notgood ? (
-            <div className="Wrong-password">
-              {message}
-            </div>
-          ) : null}
+          {notgood ? <div className="Wrong-password">{message}</div> : null}
           <button>Sign Up</button>
         </form>
       </div>
@@ -139,7 +138,7 @@ const Signup = () => {
             <p>
               To keep connected with us please login with your personal info
             </p>
-            <Link to="/signin">
+            <Link to="/login">
               <button className="ghost" id="signIn">
                 Sign In
               </button>
@@ -151,4 +150,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Register;

@@ -4,11 +4,10 @@ import API from "./Api";
 import { Loading } from "./Loading";
 import Modal from "./Modal";
 
-const Signin = () => {
+const Login = () => {
   const [login, setLogin] = useState([]);
   const [password, setPassword] = useState([]);
   const [email, setEmail] = useState([]);
-
   const [hidden, setHidden] = useState(true);
   const [redirect, setRedirect] = useState(false);
   const [notgood, setNotgood] = useState(false);
@@ -18,7 +17,7 @@ const Signin = () => {
   );
   const [forgot, setForgot] = useState(false);
 
-  const SendSignIn = async () => {
+  const SendLogin = async () => {
     if (!login || login.length === 0 || !password || password.length === 0) {
       setMessage("Login or password is empty !");
       setShowLoading(false);
@@ -68,7 +67,7 @@ const Signin = () => {
                   event.preventDefault();
                   // setShowLoading(true);
                   // setNotgood(false);
-                  // SendSignIn();
+                  // SendLogin();
                 }}
               >
                 <h1>Forgotten your password?</h1>
@@ -99,7 +98,7 @@ const Signin = () => {
             event.preventDefault();
             setShowLoading(true);
             setNotgood(false);
-            SendSignIn();
+            SendLogin();
           }}
         >
           <h1>Sign in</h1>
@@ -155,7 +154,7 @@ const Signin = () => {
           <div className="overlay-panel overlay-right">
             <h1>Hello, Friend!</h1>
             <p>Enter your personal details and start your journey with us</p>
-            <Link to="/signup">
+            <Link to="/register">
               <button className="ghost" id="signUp">
                 Sign Up
               </button>
@@ -167,4 +166,4 @@ const Signin = () => {
   );
 };
 
-export default Signin;
+export default Login;

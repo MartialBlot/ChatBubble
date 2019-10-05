@@ -1,0 +1,12 @@
+GET Users -> Retourne tous les users?
+GET Users/id -> Retourne les infos d'un user
+OK
+
+POST Users -> Crée un user
+OK
+
+PUT Users -> Modifie tous les users
+PUT Users/id -> update 1 user
+
+DELETE Users -> Delete tous les users
+DELETE Users/id -> Delete 1 user

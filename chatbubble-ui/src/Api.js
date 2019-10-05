@@ -7,19 +7,19 @@ const burl = "http://localhost:8000/api";
 
 export default {
   login: function(send) {
-    return axios.post(`${burl}/signin/${send.login}`, send, {
+    return axios.post(`${burl}/login`, send, {
       headers: headers
     });
   },
 
-  signup: function(send) {
-    return axios.post(`${burl}/signup/${send.login}`, send, {
+  register: function(send) {
+    return axios.post(`${burl}/users`, send, {
       headers: headers
     });
   },
 
-  verifyemail: function(send) {
-    return axios.put(`${burl}/verify/${send.id}`, send, {
+  userupdate: function(id, send) {
+    return axios.put(`${burl}/users/${id}`, send, {
       headers: headers
     });
   },

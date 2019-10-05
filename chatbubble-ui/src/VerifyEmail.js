@@ -4,19 +4,20 @@ import API from "./Api";
 import { Loading } from "./Loading";
 import Modal from "./Modal";
 
-const VerifyEmail = (props) => {
+const VerifyEmail = props => {
   const [showLoading, setShowLoading] = useState(true);
   const [redirect, setRedirect] = useState(false);
 
-  const Emailverifapi = async (id) => {
+  const Emailverifapi = async id => {
     try {
-      const { data } = await API.verifyemail({ id });
+      const confirmed = true;
+      const { data } = await API.userupdate(id, { confirmed });
+      console.log(data.success);
       if (data.success) {
         setShowLoading(false);
         setRedirect(true);
       } else {
         setShowLoading(false);
-        setNotgood(true);
       }
     } catch (error) {
       console.error(error);
