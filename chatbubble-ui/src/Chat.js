@@ -3,37 +3,6 @@ import { Link, Redirect } from "@reach/router";
 import API from "./Api";
 import styled from "@emotion/styled";
 
-//TempChatPage
-const Chat = () => {
-  const [redirect, setRedirect] = useState(false);
-  if (!API.isAuth()) return <Redirect to="/" noThrow />;
-  return (
-    <div>
-      <div>
-        <h2>You are connected !</h2>
-        <h1>
-          <Link to="/chat">Click here to access the chat!</Link>
-        </h1>
-        <br />
-        <br />
-      </div>
-      {redirect ? <Redirect to="/" noThrow /> : null}
-      <div>
-        <button
-          onClick={() => {
-            API.logout();
-            setRedirect(true);
-          }}
-        >
-          Logout
-        </button>
-      </div>
-    </div>
-  );
-};
-
-export default Chat;
-
 //RealChatComponent(Desktop)
 export const ChatComponent = () => {
   const [hiddenSearchFriend, setHiddenSearchFriend] = useState(true);
