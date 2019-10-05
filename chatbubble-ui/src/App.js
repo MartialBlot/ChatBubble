@@ -8,6 +8,7 @@ import VerifyEmail from "./VerifyEmail";
 import Profile from "./Profile";
 import Chat, { ChatComponent } from "./Chat";
 import IsAuth from "./IsAuth";
+import Loading from "./Loading";
 
 // import { Loading } from "./Loading";
 // import Firebase, { FirebaseContext } from "./firebase";

@@ -29,7 +29,7 @@ export default {
   },
 
   getAllUsers: function() {
-    return axios.get(`${burl}/users`)
+    return axios.get(`${burl}/users`);
   },
 
   logout: function() {
