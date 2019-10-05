@@ -13,7 +13,7 @@ router.use(bodyParser.urlencoded({
 //Post message
 router.post('/messages', (req, res) => {
     let message = req.body
-    let messageKey = [message.from, message.to].sort().join('')
+    let messageKey = [message.from, message.to].sort().join('-')
 
     //Create unique id
     let refId = db.ref().child('messages').push().key
@@ -32,6 +32,17 @@ router.post('/messages', (req, res) => {
     })
 })
 
+router.get('/messages', (req, res) => {
+    let path = db.ref(`messages`)
+    let getMessage = path.once('value').then(v => {
+        res.status(200).json({
+            nodeUsers: Object.keys(v.val()),
+            statue: 'Great work',
+            success: true
+        })}
+    )
+})
+
 //Get Messages
 router.get('/messages/:idUsers', (req, res) => {
     let users = req.params.idUsers
@@ -43,7 +54,6 @@ router.get('/messages/:idUsers', (req, res) => {
         success: true
     })
     )
-
 })
 
 //Delete message

@@ -28,9 +28,18 @@ export default {
     return localStorage.getItem("token-chatbubble") !== null;
   },
 
+  postMessage: function(send) {
+    return axios.post(`${burl}/messages`, send, {
+      headers: headers
+    });
+  },
+
   getAllUsers: function() {
     return axios.get(`${burl}/users`);
   },
+
+  getNodeUsers: function () {
+    return axios.get(`${burl}/messages`)},
 
   getMessages: function (users) {
     return axios.get(`${burl}/messages/${users}`)},

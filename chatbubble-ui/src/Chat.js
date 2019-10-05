@@ -2,19 +2,25 @@ import React, {useState, useEffect, useContext} from 'react'
 import {Link, Redirect} from '@reach/router'
 import API from './Api'
 import styled from '@emotion/styled'
+import decode from 'jwt-decode'
 
 //RealChatComponent(Desktop)
 export const ChatComponent = () => {
     const [hiddenSearchFriend, setHiddenSearchFriend] = useState(true)
     const [auth, setAuth] = useState(true)
     const [users, setUsers] = useState([])
+    const [userId, setUserId] = useState('')
     const [search, setSearch] = useState('')
     const [redirect, setRedirect] = useState(false)
     const [profile, setProfile] = useState(false)
     const [messages, setMessages] = useState([])
+    const [message, setMessage] = useState([])
+    const [contacts, setContacts] = useState([])
+    const [currentContact, setCurrentContact] = useState('')
+
+    let answer = decode(localStorage.getItem('token-chatbubble'))
 
     //tempUser
-
 
     const GetAllUsers = async () => {
         try {
@@ -27,16 +33,64 @@ export const ChatComponent = () => {
         }
     }
 
+    const PostMessage = async () => {
+        try {
+            let form = {
+                to     : currentContact,
+                from   : userId,
+                message: message && message,
+                date   : '10/10/2019'
+            }
+            const {data} = await API.postMessage(form)
+            if (data.success) {
+                console.log('message envoyé')
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    const AddContact = async (contact) => {
+        setCurrentContact(contact)
+        try {
+            let form = {
+                to     : currentContact,
+                from   : userId,
+                message: '',
+                date   : 'noTime'
+            }
+            const {data} = await API.postMessage(form)
+            if (data.success) {
+                console.log('contact ajouté')
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    const GetNodeUsers = async () => {
+        try {
+            const {data} = await API.getNodeUsers()
+            let userContact = []
+            if (data.success) {
+                data.nodeUsers.map((contact) => {
+                    let users = contact.split('-')
+                    if (users[0] === userId || users[1] === userId) {
+                        let i = users.indexOf(userId)
+                        users.splice(i, 1)
+                        userContact.push(users.join(''))
+                    }
+                })
+                return setContacts(userContact)
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     const GetMessages = async () => {
         try {
-
-            //---------------Temp Data
-            let tempUsers = {
-                to  : 'Martial',
-                from: 'Nicolas'
-            }
-            let messageKey = [tempUsers.from, tempUsers.to].sort().join('')
-            //-----------------
+            let messageKey = [userId && userId, currentContact].sort().join('-')
 
             const {data} = await API.getMessages(messageKey)
             if (data.success) {
@@ -52,13 +106,20 @@ export const ChatComponent = () => {
         setSearch(value)
     }
 
+    function handleMessage(event) {
+        let value = event.target.value
+        setMessage(value)
+    }
+
     useEffect(() => {
         if (!API.isAuth()) {
             setAuth(false)
         }
+        setUserId(answer.uid)
+        GetNodeUsers()
         GetAllUsers()
         GetMessages()
-    }, [hiddenSearchFriend])
+    }, [hiddenSearchFriend, currentContact])
 
     return (
         <div>
@@ -85,7 +146,15 @@ export const ChatComponent = () => {
                 {!auth ? <Redirect to="/signin" noThrow/> : null}
                 <ContactList>
                     <h1>Vos contacts</h1>
-                    <YourContactBox></YourContactBox>
+                    <YourContactBox>
+                        {
+                            contacts && contacts.map((contact, index) => {
+                                return <ContactBox key={index} onClick={() => {
+                                    setCurrentContact(contact)
+                                }}>{contact}</ContactBox>
+                            })
+                        }
+                    </YourContactBox>
                     {hiddenSearchFriend ? (
                         <AddFriendButton
                             onClick={() => {
@@ -114,13 +183,17 @@ export const ChatComponent = () => {
                         <SearchList>
                             {users &&
                             users.map((user, index) => {
-                                if (search === '' || searchTool(search, user.login))
+                                if ((search === '' || searchTool(search, user.login)) && !contacts.includes(user.login) && user.login !== userId) {
                                     return (
-                                        <UserSearch key={index}>
+                                        <UserSearch key={index} onClick={() => {
+                                            AddContact(user.login)
+                                        }}>
                                             <p>{user.login}</p>
                                         </UserSearch>
                                     )
-                            })}
+                                }
+                            })
+                            }
                         </SearchList>
                     )}
                 </ContactList>
@@ -129,17 +202,25 @@ export const ChatComponent = () => {
                         {
                             messages && Object.entries(messages).map((content, index) => {
                                 console.log(content)
-                                if(content[1].from === 'Martial') {
-                                    return <MessageUser key={index}><TextUserStyle>{content[1].message}</TextUserStyle></MessageUser>
-                                } else {
-                                    return <MessageContact key={index}><TextContactStyle>{content[1].message}</TextContactStyle></MessageContact>
+                                if (content[1].message.length > 0) {
+                                    if (content[1].from === userId) {
+                                        return <MessageUser
+                                            key={index}><TextUserStyle>{content[1].message}</TextUserStyle></MessageUser>
+                                    } else {
+                                        return <MessageContact
+                                            key={index}><TextContactStyle>{content[1].message}</TextContactStyle></MessageContact>
+                                    }
                                 }
                             })
                         }
                     </ConversationBox>
                     <WriteSendStyle>
-                        <input type="text" placeholder="Ecrire votre message ici"/>
-                        <SendButton>envoyer</SendButton>
+                        <input type="text" placeholder="Ecrire votre message ici" onChange={handleMessage}/>
+                        <SendButton onClick={() => {
+                            PostMessage()
+                        }}>
+                            envoyer
+                        </SendButton>
                     </WriteSendStyle>
                 </ConversationArea>
             </WrapperChat>
@@ -151,6 +232,15 @@ const searchTool = (search, user) => {
     let tableUserName = user.toLowerCase().split('')
     return tableUserName.join('').includes(search.toLowerCase())
 }
+
+const ContactBox = styled.div`
+  border: 1px solid grey;
+  padding: 10px;
+  border-radius: 9px;
+  text-align: center;
+  background-color: #ff4b2b;
+  cursor: pointer;
+`
 
 const WrapperChat = styled.div`
   width: 1200px;
@@ -216,6 +306,7 @@ const SendButton = styled.button`
 
 const YourContactBox = styled.div`
   border: solid 1px grey;
+  overflow: scroll;
   border-radius: 9px;
   height: 82%;
   margin-top: 15px;
