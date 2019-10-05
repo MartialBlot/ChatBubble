@@ -5,6 +5,8 @@ const router = express.Router();
 const db = admin.firestore();
 const bodyParser = require("body-parser");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const exjwt = require("express-jwt");
 
 router.use(bodyParser.json());
 router.use(
@@ -17,18 +19,17 @@ router.post("/login", (req, res) => {
   const data = req.body;
   const userName = data.login;
   console.log(userName);
-  let newToken;
   let path = db.collection("userProfiles").doc(userName);
 
-  admin
-    .auth()
-    .createCustomToken(userName)
-    .then(function(customToken) {
-      newToken = customToken;
-    })
-    .catch(function(error) {
-      console.log("Error creating custom token:", error);
-    });
+  // admin
+  //   .auth()
+  //   .createCustomToken(userName)
+  //   .then(function(customToken) {
+  //     newToken = customToken;
+  //   })
+  //   .catch(function(error) {
+  //     console.log("Error creating custom token:", error);
+  //   });
 
   let user = path
     .get()
@@ -46,11 +47,16 @@ router.post("/login", (req, res) => {
           bcrypt.compareSync(data.password, doc.data().password) &&
           doc.data().confirmed === true
         ) {
+          let token = jwt.sign(
+            { username: data.login },
+            "acer clope electronique",
+            { expiresIn: 129600 }
+          );
           console.log("Login successful !");
           return res.status(200).json({
             status: "Login successful!",
             success: true,
-            token: newToken
+            token: token
           });
         }
         if (
