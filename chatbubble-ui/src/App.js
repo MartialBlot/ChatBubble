@@ -23,7 +23,6 @@ const App = () => {
           <Register path="/register" />
           <Login path="/login" />
           <Loading path="/loading" />
-          <ChatComponent path="/chat" />
           <VerifyEmail path="/verify/:identity" />
         </Router>
       </div>
