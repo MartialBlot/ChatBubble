@@ -32,6 +32,9 @@ export default {
     return axios.get(`${burl}/users`);
   },
 
+  getMessages: function (users) {
+    return axios.get(`${burl}/messages/${users}`)},
+
   logout: function() {
     localStorage.clear();
   }
