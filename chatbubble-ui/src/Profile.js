@@ -52,8 +52,11 @@ const Profile = () => {
         setShowLoading(false);
       } else {
         if (data.status) {
+          setNotgood(true);
+
           setMessage(data.status);
         } else {
+          setNotgood(true);
           setMessage("Error, please try again !");
         }
 
