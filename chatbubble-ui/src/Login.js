@@ -5,9 +5,9 @@ import { Loading } from "./Loading";
 import Modal from "./Modal";
 
 const Login = () => {
-  const [login, setLogin] = useState([]);
-  const [password, setPassword] = useState([]);
-  const [email, setEmail] = useState([]);
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
   const [hidden, setHidden] = useState(true);
   const [redirect, setRedirect] = useState(false);
   const [notgood, setNotgood] = useState(false);
@@ -24,9 +24,6 @@ const Login = () => {
       setNotgood(true);
       return;
     }
-    // if (!password || password.length === 0) {
-    //   return;
-    // }
     try {
       const { data } = await API.login({ login, password });
       if (data.success) {
@@ -39,11 +36,8 @@ const Login = () => {
         } else {
           setMessage("Wrong login or password, try again !");
         }
-
         setShowLoading(false);
         setNotgood(true);
-
-        // console.log(data);
       }
     } catch (error) {
       console.error(error);

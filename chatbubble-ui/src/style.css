@@ -107,6 +107,13 @@ input {
   margin: 5px 0;
 }
 
+.Good-password {
+  color: rgb(10, 204, 10);
+  font-size: 14px;
+  text-decoration: none;
+  margin: 5px 0;
+}
+
 .container {
   background-color: #fff;
   border-radius: 10px;
@@ -245,7 +252,6 @@ input {
   margin: 0 5px;
   height: 40px;
   width: 40px;
-  
 }
 
 /* footer {
@@ -284,7 +290,6 @@ footer a {
   display: flex;
   justify-content: center;
   align-items: center;
-  
 }
 
 #modal:empty {
