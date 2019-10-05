@@ -10,8 +10,9 @@ const signin = require('./login/signin');
 const signup = require('./login/signup');
 const verifymail = require('./login/verifymail');
 const profile = require('./profile/profile');
+const message = require('./chat/chat');
 
-server.use('/api', signin, signup, verifymail, profile)
+server.use('/api', signin, signup, verifymail, profile, message)
 
 server.listen(PORT, () => {
     console.log(`Server Running on port: ${PORT}`);
