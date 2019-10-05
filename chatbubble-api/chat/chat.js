@@ -11,7 +11,7 @@ router.use(bodyParser.urlencoded({
 
 
 //Post message
-router.post('/message', (req, res) => {
+router.post('/messages', (req, res) => {
     let message = req.body
     let messageKey = [message.from, message.to].sort().join('')
 
@@ -32,7 +32,7 @@ router.post('/message', (req, res) => {
 })
 
 //Get Messages
-router.get('/message', (req, res) => {
+router.get('/messages', (req, res) => {
     let users = req.body
     let messageKey = [message.from, message.to].sort().join('')
 
@@ -45,7 +45,7 @@ router.get('/message', (req, res) => {
 })
 
 //Delete message
-router.delete('/message/:messageId', (req, res) => {
+router.delete('/messages/:messageId', (req, res) => {
     let users = req.body
     let messageId = req.params.messageId
     let messageKey = [users.from, users.to].sort().join('')
