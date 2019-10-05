@@ -4,48 +4,52 @@ import API from "./Api";
 import Modal from "./Modal";
 import { Loading } from "./Loading";
 
-const Register = () => {
+const Profile = () => {
   const [login, setLogin] = useState("");
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
-  // const [hidden, setHidden] = useState(false);
+  const [good, setGood] = useState(false);
   const [redirect, setRedirect] = useState(false);
   const [notgood, setNotgood] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
   const [message, setMessage] = useState("Error, please try again !");
 
   const SendLogin = async () => {
-    if (
-      !login ||
-      login.length === 0 ||
-      !fullname ||
-      fullname.length === 0 ||
-      !email ||
-      email.length === 0 ||
-      !password ||
-      password.length === 0 ||
-      !password2 ||
-      password2.length === 0 ||
-      password !== password2
-    ) {
-      setMessage("Please fill all the fields !");
+    setNotgood(false);
+    setGood(false);
+    if (password && password !== password2) {
+      setMessage("Passwords don't match !");
       setShowLoading(false);
       setNotgood(true);
       return;
     }
+    if (!password && !login && !fullname && !email) {
+      setMessage("All fields are empty !");
+      setShowLoading(false);
+      setNotgood(true);
+      return;
+    }
+    if (!login) {
+      setMessage("Faut rentrer le login sinon ca marche pas pour linstant lol");
+      setShowLoading(false);
+      setNotgood(true);
+      return;
+    }
+    let send = new Object();
+    if (fullname) send.fullname = fullname;
+    if (email) send.email = email;
+    if (password) send.password = password;
+
     try {
-      const { data } = await API.register({
-        login,
-        fullname,
-        email,
-        password
-      });
+      const { data } = await API.userupdate(login, send);
       if (data.success) {
-        // localStorage.setItem("token-chatbubble", data.token);
+        if (data.status) {
+          setGood(true);
+          setMessage(data.status);
+        }
         setShowLoading(false);
-        setRedirect(true);
       } else {
         if (data.status) {
           setMessage(data.status);
@@ -60,6 +64,10 @@ const Register = () => {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    if (!API.isAuth()) setRedirect(true);
+  }, []);
 
   return (
     <div className="container" id="container">
@@ -78,19 +86,7 @@ const Register = () => {
             SendLogin();
           }}
         >
-          <h1>Create Account</h1>
-          {/* <div className="social-container">
-            <a href="#" className="social">
-              <i className="fab fa-facebook-f"></i>
-            </a>
-            <a href="#" className="social">
-              <i className="fab fa-google-plus-g"></i>
-            </a>
-            <a href="#" className="social">
-              <i className="fab fa-linkedin-in"></i>
-            </a>
-          </div>
-          <span>or use your email for registration</span> */}
+          <h1>Modify profile</h1>
           <input
             type="text"
             placeholder="Login"
@@ -112,7 +108,6 @@ const Register = () => {
           <input
             type="password"
             pattern="(?=.*\d)(?=.*[A-z]).{8,}"
-            required
             title="Must contain at least one letter, one number and 8 characters"
             placeholder="Password"
             value={password}
@@ -121,26 +116,23 @@ const Register = () => {
           <input
             type="password"
             pattern="(?=.*\d)(?=.*[A-z]).{8,}"
-            required
             title="Must contain at least one letter, one number and 8 characters"
             placeholder="Verify password"
             value={password2}
             onChange={e => setPassword2(e.target.value)}
           />
           {notgood ? <div className="Wrong-password">{message}</div> : null}
-          <button>Sign Up</button>
+          {good ? <div className="Good-password">{message}</div> : null}
+          <button>Modify</button>
         </form>
       </div>
       <div className="overlay-container">
         <div className="overlay">
           <div className="overlay-panel overlay-right">
-            <h1>Welcome Back!</h1>
-            <p>
-              To keep connected with us please login with your personal info
-            </p>
-            <Link to="/login">
+            <h1>Go back to chat</h1>
+            <Link to="/chat">
               <button className="ghost" id="signIn">
-                Sign In
+                Chat
               </button>
             </Link>
           </div>
@@ -150,4 +142,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Profile;

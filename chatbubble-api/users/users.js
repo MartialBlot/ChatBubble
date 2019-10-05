@@ -97,7 +97,6 @@ router.put("/users/:userId", async (req, res) => {
       .update(data)
       .then(verify => {
         if (verify) {
-          // check verify.exists
           res.status(200).json({
             status: "Update done !",
             success: true
