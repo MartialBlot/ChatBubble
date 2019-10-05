@@ -27,21 +27,23 @@ router.post('/messages', (req, res) => {
     })
     res.status(200).json({
         messageInfos: message,
-        statue: 'Great work'
+        statue: 'Great work',
+        success: true
     })
 })
 
 //Get Messages
-router.get('/messages', (req, res) => {
-    let users = req.body
-    let messageKey = [message.from, message.to].sort().join('')
-
-    let path = db.ref(`messages/${messageKey}`)
-
-    let getMessage = path.once('value').then(v => console.log(v.val()))
-    res.status(200).json({
-        statue: 'Great work'
+router.get('/messages/:idUsers', (req, res) => {
+    let users = req.params.idUsers
+    // let messageKey = [users.from, users.to].sort().join('')
+    let path = db.ref(`messages/${users}`)
+    let getMessage = path.once('value').then(v => res.status(200).json({
+        messages: v.val(),
+        statue: 'Great work',
+        success: true
     })
+    )
+
 })
 
 //Delete message
@@ -53,7 +55,8 @@ router.delete('/messages/:messageId', (req, res) => {
     let deleteMessage = path.remove()
     res.status(200).json({
         response: 'le message est bien supprimé',
-        statue: 'Great work'
+        statue: 'Great work',
+        success: true
     })
 })
 
