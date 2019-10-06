@@ -3,6 +3,7 @@ const admin = require("../firebase-admin/admin");
 const router = express.Router();
 const db = admin.firestore();
 const bodyParser = require("body-parser");
+const bcrypt = require("bcrypt");
 
 router.use(bodyParser.json());
 router.use(

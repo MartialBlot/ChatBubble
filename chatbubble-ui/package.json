@@ -1,8 +1,8 @@
 {
-  "name": "adopt-me",
+  "name": "chatbubble",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "App.js",
   "scripts": {
     "dev": "parcel \"./src/index.html\"",
     "build": "parcel build \"./src/index.html\"",

@@ -16,6 +16,7 @@ router.use(
 );
 
 router.post("/login", (req, res) => {
+  console.log("lol");
   const data = req.body;
   const userName = data.login;
   console.log(userName);

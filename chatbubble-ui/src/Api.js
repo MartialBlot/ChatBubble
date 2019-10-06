@@ -7,6 +7,7 @@ const burl = "http://localhost:8000/api";
 
 export default {
   login: function(send) {
+    console.log("lol");
     return axios.post(`${burl}/login`, send, {
       headers: headers
     });
@@ -29,6 +30,7 @@ export default {
   },
 
   postMessage: function(send) {
+    console.log(send);
     return axios.post(`${burl}/messages`, send, {
       headers: headers
     });
@@ -38,11 +40,13 @@ export default {
     return axios.get(`${burl}/users`);
   },
 
-  getNodeUsers: function () {
-    return axios.get(`${burl}/messages`)},
+  getNodeUsers: function() {
+    return axios.get(`${burl}/messages`);
+  },
 
-  getMessages: function (users) {
-    return axios.get(`${burl}/messages/${users}`)},
+  getMessages: function(users) {
+    return axios.get(`${burl}/messages/${users}`);
+  },
 
   logout: function() {
     localStorage.clear();
