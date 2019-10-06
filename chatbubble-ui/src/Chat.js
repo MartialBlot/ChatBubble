@@ -55,10 +55,10 @@ export const ChatComponent = () => {
 
   const AddContact = async contact => {
     // attention decale de 1 (je clique sur martial j'ai rien je reclique j'ai martial je clique sur nico j'ai martial etc...)
-    setCurrentContact(contact);
+    console.log(contact)
     try {
       let form = {
-        to: currentContact,
+        to: contact,
         from: userId,
         message: "",
         date: "noTime"
