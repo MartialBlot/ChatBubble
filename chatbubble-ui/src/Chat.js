@@ -55,7 +55,7 @@ export const ChatComponent = () => {
 
   const AddContact = async contact => {
     // attention decale de 1 (je clique sur martial j'ai rien je reclique j'ai martial je clique sur nico j'ai martial etc...)
-    console.log(contact)
+    console.log(contact);
     try {
       let form = {
         to: contact,
@@ -94,13 +94,10 @@ export const ChatComponent = () => {
   };
 
   const GetMessages = async () => {
-    console.log("updatemessage");
-    setLoop(false);
     try {
       let messageKey = [userId && userId, currentContact].sort().join("-");
       const { data } = await API.getMessages(messageKey);
       if (data.success) {
-        setLoop(true);
         return setMessages(data.messages);
       }
     } catch (error) {
@@ -128,7 +125,11 @@ export const ChatComponent = () => {
     GetAllUsers();
     GetNodeUsers();
     GetMessages();
-  }, [userId, hiddenSearchFriend, currentContact]);
+  }, [userId, hiddenSearchFriend]);
+
+  useEffect(() => {
+    GetMessages();
+  }, [currentContact]);
 
   return (
     <div>
