@@ -105,6 +105,9 @@ export const ChatComponent = () => {
         ) {
           nbMessages = Object.entries(data.messages).length;
           setMessages(data.messages);
+          setTimeout(function() {
+            scroll();
+          }, 500);
           GetResponseNewMessage();
         } else {
           GetResponseNewMessage();
@@ -122,6 +125,9 @@ export const ChatComponent = () => {
       if (data.success) {
         nbMessages = Object.entries(data.messages).length;
         setMessages(data.messages);
+        setTimeout(function() {
+          scroll();
+        }, 500);
         return GetResponseNewMessage();
       }
     } catch (error) {
@@ -143,6 +149,12 @@ export const ChatComponent = () => {
     event.preventDefault();
     PostMessage();
     setMessage("");
+  }
+
+  function scroll() {
+    document.getElementById("conversation").scrollTop = document.getElementById(
+      "conversation"
+    ).scrollHeight;
   }
 
   useEffect(() => {
@@ -199,6 +211,9 @@ export const ChatComponent = () => {
                     key={index}
                     onClick={() => {
                       setCurrentContact(contact);
+                      setTimeout(function() {
+                        scroll();
+                      }, 500);
                     }}
                   >
                     {contact}
@@ -257,7 +272,7 @@ export const ChatComponent = () => {
           )}
         </ContactList>
         <ConversationArea>
-          <ConversationBox>
+          <ConversationBox id={"conversation"}>
             {messages && Object.entries(messages).length > 1 ? (
               Object.entries(messages).map((content, index) => {
                 if (content[1].message && content[1].message.length > 1) {
