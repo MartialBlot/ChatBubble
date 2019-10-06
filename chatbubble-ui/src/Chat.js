@@ -137,6 +137,12 @@ export const ChatComponent = () => {
         setMessage(value)
     }
 
+    function onSubmit(event){
+        event.preventDefault();
+        PostMessage()
+        setMessage('')
+    }
+
 
     useEffect(() => {
         if (!API.isAuth()) {
@@ -273,19 +279,14 @@ export const ChatComponent = () => {
                             }
                         })}
                     </ConversationBox>
-                    <WriteSendStyle>
+                    <WriteSendStyle onSubmit={onSubmit}>
                         <input
                             type="text"
                             value={message}
                             placeholder="Ecrire votre message ici"
                             onChange={handleMessage}
                         />
-                        <SendButton
-                            onClick={() => {
-                                PostMessage()
-                                setMessage('')
-                            }}
-                        >
+                        <SendButton type="submit">
                             envoyer
                         </SendButton>
                     </WriteSendStyle>
@@ -361,8 +362,11 @@ const ConversationArea = styled.div`
   width: 65%;
 `
 
-const WriteSendStyle = styled.div`
+const WriteSendStyle = styled.form`
   display: flex;
+  flex-direction: row;
+  height: auto;
+  background-color: #f6f5f7;
   align-items: center;
   margin: 10px;
 `
