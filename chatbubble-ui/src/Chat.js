@@ -160,6 +160,12 @@ export const ChatComponent = () => {
         GetMessages()
     }, [currentContact])
 
+    function scroll()
+    {
+        document.getElementById("conversation").scrollTop = document.getElementById("conversation").scrollHeight;
+    }
+
+
     return (
         <div>
             {redirect ? <Redirect to="/" noThrow/> : null}
@@ -198,6 +204,8 @@ export const ChatComponent = () => {
                                     key={index}
                                     onClick={() => {
                                         setCurrentContact(contact)
+                                        setTimeout(function(){scroll()
+                                        },500)
                                     }}
                                 >
                                     {contact}
@@ -254,8 +262,9 @@ export const ChatComponent = () => {
                     )}
                 </ContactList>
                 <ConversationArea>
-                    <ConversationBox>
-                        {messages &&
+                    <ConversationBox id={'conversation'}>
+                        {
+                            messages &&
                         Object.entries(messages).map((content, index) => {
                             {
                                 /* console.log(content); */
@@ -295,7 +304,6 @@ export const ChatComponent = () => {
         </div>
     )
 }
-
 
 const searchTool = (search, user) => {
     let tableUserName = user.toLowerCase().split('')
