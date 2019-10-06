@@ -4,7 +4,7 @@
   "description": "",
   "main": "App.js",
   "scripts": {
-    "dev": "parcel \"./src/index.html\"",
+    "dev": "prettier \"./src/**/*.{js,html}\" --write && parcel \"./src/index.html\"",
     "build": "parcel build \"./src/index.html\"",
     "dev:mock": "cross-env PET_MOCK=mock npm run dev",
     "format": "prettier \"./src/**/*.{js,html}\" --write",
