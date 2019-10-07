@@ -109,9 +109,9 @@ export const ChatComponent = () => {
         ) {
           nbMessages = Object.entries(data.messages).length;
           setMessages(data.messages);
-          setTimeout(function() {
-            scroll();
-          }, 500);
+          // setTimeout(function() {
+          //   scroll();
+          // }, 500);
           GetResponseNewMessage();
         } else {
           GetResponseNewMessage();
@@ -129,9 +129,6 @@ export const ChatComponent = () => {
       if (data.success) {
         nbMessages = Object.entries(data.messages).length;
         setMessages(data.messages);
-        setTimeout(function() {
-          scroll();
-        }, 500);
         return GetResponseNewMessage();
       }
     } catch (error) {
@@ -177,6 +174,10 @@ export const ChatComponent = () => {
   useEffect(() => {
     GetMessages();
   }, [currentContact]);
+
+  useEffect(() => {
+    scroll();
+  }, [messages]);
 
   return (
     <div>
