@@ -109,6 +109,7 @@ export const ChatComponent = () => {
         ) {
           nbMessages = Object.entries(data.messages).length;
           setMessages(data.messages);
+          audio.play();
           GetResponseNewMessage();
         } else {
           GetResponseNewMessage();
@@ -330,6 +331,8 @@ export const ChatComponent = () => {
     </div>
   );
 };
+
+let audio = new Audio(require("./assets/sounds/newMessange.mp3"));
 
 const searchTool = (search, user) => {
   let tableUserName = user.toLowerCase().split("");
