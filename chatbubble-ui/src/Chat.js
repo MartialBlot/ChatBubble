@@ -377,6 +377,7 @@ const TextUserStyle = styled.p`
 `;
 
 const TextContactStyle = styled.p`
+  overflow-wrap: break-word;
   background-color: coral;
   padding: 9px;
   border-radius: 9px;
