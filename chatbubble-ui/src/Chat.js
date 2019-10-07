@@ -217,9 +217,6 @@ export const ChatComponent = () => {
                         key={index}
                         onClick={() => {
                           setCurrentContact(contact);
-                          setTimeout(function() {
-                            scroll();
-                          }, 500);
                         }}
                       >
                         {contact}
@@ -231,9 +228,6 @@ export const ChatComponent = () => {
                         key={index}
                         onClick={() => {
                           setCurrentContact(contact);
-                          setTimeout(function() {
-                            scroll();
-                          }, 500);
                         }}
                       >
                         {contact}
