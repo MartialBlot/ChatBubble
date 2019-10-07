@@ -72,6 +72,31 @@ export const ChatComponent = () => {
     }
   };
 
+  const GetAllUserMessages = async () => {
+    try {
+      const { data } = await API.getNodeUsers();
+      let userContact = [];
+      if (data.success) {
+        let nodeUsers = data.nodeUsers;
+        nodeUsers.map(contact => {
+          let users = contact.split("-");
+          if (users[0] === userId || users[1] === userId) {
+            let i = users.indexOf(userId);
+            users.splice(i, 1);
+            userContact.push(users.join(""));
+          }
+        });
+        if (firstcontact) {
+          setCurrentContact(userContact[0]);
+          setFirstcontact(false);
+        }
+        return setContacts(userContact);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const GetNodeUsers = async () => {
     try {
       const { data } = await API.getNodeUsers();
@@ -287,13 +312,19 @@ export const ChatComponent = () => {
             {messages && Object.entries(messages).length > 1 ? (
               Object.entries(messages).map((content, index) => {
                 if (content[1].message && content[1].message.length > 0) {
-                  if (content[1].from === userId && content[1].to === currentContact) {
+                  if (
+                    content[1].from === userId &&
+                    content[1].to === currentContact
+                  ) {
                     return (
                       <MessageUser key={index}>
                         <TextUserStyle>{content[1].message}</TextUserStyle>
                       </MessageUser>
                     );
-                  } else if(content[1].to === userId && content[1].from === currentContact) {
+                  } else if (
+                    content[1].to === userId &&
+                    content[1].from === currentContact
+                  ) {
                     return (
                       <MessageContact key={index}>
                         <TextContactStyle>

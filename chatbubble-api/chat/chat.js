@@ -13,7 +13,7 @@ router.use(
 
 //Post message
 router.post("/messages", (req, res) => {
-  let message = req.body;
+  let message = req.body;s
   let messageKey = [message.from, message.to].sort().join("-");
 
   //Create unique id
@@ -59,6 +59,29 @@ router.get("/messages/:idUsers", (req, res) => {
     })
   );
 });
+
+// router.get("/users/:UserId/messages", (req, res) => {
+// 	let UserId = req.params.UserId;
+// 	db.ref(`messages`).once("value").then(v => {
+// 	console.log(v.val());
+// 	allmessages = v.val();
+// 	allmessages.map(contact => {
+// 		let users = contact.split("-");
+// 		if (users[0] === userId || users[1] === userId) {
+// 		  let i = users.indexOf(userId);
+// 		  users.splice(i, 1);
+// 		  userContact.push(users.join(""));
+// 		}
+		
+		
+// 	res.status(200).json({
+// 		nodeUsers: Object.keys(v.val()),
+// 		user: UserId,
+// 		statue: "Great work",
+// 		success: true
+// 	  });
+// 	});
+//   });
 
 //Delete message
 router.delete("/messages/:messageId", (req, res) => {
