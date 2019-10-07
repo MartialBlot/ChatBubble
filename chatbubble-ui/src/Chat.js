@@ -108,8 +108,7 @@ export const ChatComponent = () => {
           typeof Object.entries(data.messages).length === "number"
         ) {
           nbMessages = Object.entries(data.messages).length;
-          if (data.to === currentContact || data.from === currentContact)
-            setMessages(data.messages);
+          setMessages(data.messages);
           audio.play();
           GetResponseNewMessage();
         } else {
@@ -167,7 +166,6 @@ export const ChatComponent = () => {
     GetAllUsers();
     GetNodeUsers();
     GetMessages();
-    console.log(contacts);
   }, [userId, hiddenSearchFriend]);
 
   useEffect(() => {
