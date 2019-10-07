@@ -109,10 +109,7 @@ export const ChatComponent = () => {
         ) {
           nbMessages = Object.entries(data.messages).length;
           setMessages(data.messages);
-          // setTimeout(function() {
-          //   scroll();
-          // }, 500);
-          audio.play()
+          audio.play();
           GetResponseNewMessage();
         } else {
           GetResponseNewMessage();
@@ -220,9 +217,6 @@ export const ChatComponent = () => {
                         key={index}
                         onClick={() => {
                           setCurrentContact(contact);
-                          setTimeout(function() {
-                            scroll();
-                          }, 500);
                         }}
                       >
                         {contact}
@@ -234,9 +228,6 @@ export const ChatComponent = () => {
                         key={index}
                         onClick={() => {
                           setCurrentContact(contact);
-                          setTimeout(function() {
-                            scroll();
-                          }, 500);
                         }}
                       >
                         {contact}
@@ -335,7 +326,7 @@ export const ChatComponent = () => {
   );
 };
 
-let audio = new Audio(require('./assets/sounds/newMessange.mp3'))
+let audio = new Audio(require("./assets/sounds/newMessange.mp3"));
 
 const searchTool = (search, user) => {
   let tableUserName = user.toLowerCase().split("");
