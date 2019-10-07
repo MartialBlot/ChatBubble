@@ -294,7 +294,7 @@ export const ChatComponent = () => {
           <ConversationBox id={"conversation"}>
             {messages && Object.entries(messages).length > 1 ? (
               Object.entries(messages).map((content, index) => {
-                if (content[1].message && content[1].message.length > 1) {
+                if (content[1].message && content[1].message.length > 0) {
                   if (content[1].from === userId) {
                     return (
                       <MessageUser key={index}>
