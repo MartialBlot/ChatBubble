@@ -209,38 +209,60 @@ export const ChatComponent = () => {
         <ContactList>
           <h1>Vos contacts</h1>
           <YourContactBox>
-            {contacts &&
-              contacts.map((contact, index) => {
-                if (contact === currentContact) {
-                  return (
-                    <ContactBoxCurr
-                      key={index}
-                      onClick={() => {
-                        setCurrentContact(contact);
-                        setTimeout(function() {
-                          scroll();
-                        }, 500);
-                      }}
-                    >
-                      {contact}
-                    </ContactBoxCurr>
-                  );
-                } else {
-                  return (
-                    <ContactBox
-                      key={index}
-                      onClick={() => {
-                        setCurrentContact(contact);
-                        setTimeout(function() {
-                          scroll();
-                        }, 500);
-                      }}
-                    >
-                      {contact}
-                    </ContactBox>
-                  );
-                }
-              })}
+            {hiddenSearchFriend
+              ? contacts &&
+                contacts.map((contact, index) => {
+                  if (contact === currentContact) {
+                    return (
+                      <ContactBoxCurr
+                        key={index}
+                        onClick={() => {
+                          setCurrentContact(contact);
+                          setTimeout(function() {
+                            scroll();
+                          }, 500);
+                        }}
+                      >
+                        {contact}
+                      </ContactBoxCurr>
+                    );
+                  } else {
+                    return (
+                      <ContactBox
+                        key={index}
+                        onClick={() => {
+                          setCurrentContact(contact);
+                          setTimeout(function() {
+                            scroll();
+                          }, 500);
+                        }}
+                      >
+                        {contact}
+                      </ContactBox>
+                    );
+                  }
+                })
+              : users &&
+                users.map((user, index) => {
+                  if (
+                    (search === "" || searchTool(search, user.login)) &&
+                    !contacts.includes(user.login) &&
+                    user.login !== userId
+                  ) {
+                    return (
+                      <UserSearch
+                        key={index}
+                        onClick={() => {
+                          AddContact(user.login);
+                          GetNodeUsers();
+                          GetMessages();
+                        }}
+                      >
+                        <p>{user.login}</p>
+                      </UserSearch>
+                    );
+                  }
+                })}
           </YourContactBox>
           {hiddenSearchFriend ? (
             <AddFriendButton
@@ -265,31 +287,6 @@ export const ChatComponent = () => {
                 {`<`}
               </BackButton>
             </SearchAddFriend>
-          )}
-          {hiddenSearchFriend ? null : (
-            <SearchList>
-              {users &&
-                users.map((user, index) => {
-                  if (
-                    (search === "" || searchTool(search, user.login)) &&
-                    !contacts.includes(user.login) &&
-                    user.login !== userId
-                  ) {
-                    return (
-                      <UserSearch
-                        key={index}
-                        onClick={() => {
-                          AddContact(user.login);
-                          GetNodeUsers();
-                          GetMessages();
-                        }}
-                      >
-                        <p>{user.login}</p>
-                      </UserSearch>
-                    );
-                  }
-                })}
-            </SearchList>
           )}
         </ContactList>
         <ConversationArea>
@@ -468,13 +465,6 @@ const WrapperCommand = styled.div`
   display: flex;
   justify-content: flex-end;
   padding: 10px;
-`;
-
-const SearchList = styled.div`
-  border: 1px solid grey;
-  overflow: scroll;
-  max-height: 200px;
-  margin-top: 14px;
 `;
 
 const UserSearch = styled.div`
