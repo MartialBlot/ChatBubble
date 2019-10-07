@@ -20,7 +20,7 @@ export const ChatComponent = () => {
   const [contacts, setContacts] = useState([]);
   const [currentContact, setCurrentContact] = useState("");
   const [loading, setLoading] = useState(false);
-  const [loop, setLoop] = useState(false);
+  const [firstcontact, setFirstcontact] = useState(true);
   let nbMessages = -1;
 
   //tempUser
@@ -74,7 +74,6 @@ export const ChatComponent = () => {
 
   const GetNodeUsers = async () => {
     try {
-      // let j = 1;
       const { data } = await API.getNodeUsers();
       let userContact = [];
       if (data.success) {
@@ -85,12 +84,12 @@ export const ChatComponent = () => {
             let i = users.indexOf(userId);
             users.splice(i, 1);
             userContact.push(users.join(""));
-            // if (j === 1) {
-            //   setCurrentContact(userContact);
-            //   j = 0;
-            // }
           }
         });
+        if (firstcontact) {
+          setCurrentContact(userContact[0]);
+          setFirstcontact(false);
+        }
         return setContacts(userContact);
       }
     } catch (error) {
@@ -172,6 +171,7 @@ export const ChatComponent = () => {
     GetAllUsers();
     GetNodeUsers();
     GetMessages();
+    console.log(contacts);
   }, [userId, hiddenSearchFriend]);
 
   useEffect(() => {
@@ -254,6 +254,7 @@ export const ChatComponent = () => {
                         key={index}
                         onClick={() => {
                           AddContact(user.login);
+                          setCurrentContact(user.login);
                           GetNodeUsers();
                           GetMessages();
                         }}
