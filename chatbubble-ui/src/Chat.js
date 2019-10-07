@@ -74,6 +74,7 @@ export const ChatComponent = () => {
 
   const GetNodeUsers = async () => {
     try {
+      // let j = 1;
       const { data } = await API.getNodeUsers();
       let userContact = [];
       if (data.success) {
@@ -84,6 +85,10 @@ export const ChatComponent = () => {
             let i = users.indexOf(userId);
             users.splice(i, 1);
             userContact.push(users.join(""));
+            // if (j === 1) {
+            //   setCurrentContact(userContact);
+            //   j = 0;
+            // }
           }
         });
         return setContacts(userContact);
@@ -206,19 +211,35 @@ export const ChatComponent = () => {
           <YourContactBox>
             {contacts &&
               contacts.map((contact, index) => {
-                return (
-                  <ContactBox
-                    key={index}
-                    onClick={() => {
-                      setCurrentContact(contact);
-                      setTimeout(function() {
-                        scroll();
-                      }, 500);
-                    }}
-                  >
-                    {contact}
-                  </ContactBox>
-                );
+                if (contact === currentContact) {
+                  return (
+                    <ContactBoxCurr
+                      key={index}
+                      onClick={() => {
+                        setCurrentContact(contact);
+                        setTimeout(function() {
+                          scroll();
+                        }, 500);
+                      }}
+                    >
+                      {contact}
+                    </ContactBoxCurr>
+                  );
+                } else {
+                  return (
+                    <ContactBox
+                      key={index}
+                      onClick={() => {
+                        setCurrentContact(contact);
+                        setTimeout(function() {
+                          scroll();
+                        }, 500);
+                      }}
+                    >
+                      {contact}
+                    </ContactBox>
+                  );
+                }
               })}
           </YourContactBox>
           {hiddenSearchFriend ? (
@@ -325,6 +346,15 @@ const ContactBox = styled.div`
   border-radius: 9px;
   text-align: center;
   background-color: #ff4b2b;
+  cursor: pointer;
+`;
+
+const ContactBoxCurr = styled.div`
+  border: 1px solid grey;
+  padding: 10px;
+  border-radius: 9px;
+  text-align: center;
+  background-color: #32cd32;
   cursor: pointer;
 `;
 
