@@ -109,9 +109,6 @@ export const ChatComponent = () => {
         ) {
           nbMessages = Object.entries(data.messages).length;
           setMessages(data.messages);
-          // setTimeout(function() {
-          //   scroll();
-          // }, 500);
           GetResponseNewMessage();
         } else {
           GetResponseNewMessage();
