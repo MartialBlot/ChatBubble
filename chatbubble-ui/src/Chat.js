@@ -378,6 +378,7 @@ const ContactList = styled.div`
 `;
 
 const TextUserStyle = styled.p`
+  overflow-wrap: break-word;
   background-color: orangered;
   padding: 9px;
   border-radius: 9px;
