@@ -287,13 +287,13 @@ export const ChatComponent = () => {
             {messages && Object.entries(messages).length > 1 ? (
               Object.entries(messages).map((content, index) => {
                 if (content[1].message && content[1].message.length > 0) {
-                  if (content[1].from === userId) {
+                  if (content[1].from === userId && content[1].to === currentContact) {
                     return (
                       <MessageUser key={index}>
                         <TextUserStyle>{content[1].message}</TextUserStyle>
                       </MessageUser>
                     );
-                  } else {
+                  } else if(content[1].to === userId && content[1].from === currentContact) {
                     return (
                       <MessageContact key={index}>
                         <TextContactStyle>
