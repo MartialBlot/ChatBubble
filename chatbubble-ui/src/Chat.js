@@ -108,7 +108,8 @@ export const ChatComponent = () => {
           typeof Object.entries(data.messages).length === "number"
         ) {
           nbMessages = Object.entries(data.messages).length;
-          setMessages(data.messages);
+          if (data.to === currentContact || data.from === currentContact)
+            setMessages(data.messages);
           audio.play();
           GetResponseNewMessage();
         } else {
