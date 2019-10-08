@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 const bcrypt = require("bcrypt");
 let mailurl;
 if (process.env.CHATBUBBLE === "DEV") mailurl = "http://localhost:1234/verify/";
-else mailurl = "http://35.197.209.176:1324/verify/";
+else mailurl = "http://35.197.209.176:1234/verify/";
 
 router.use(bodyParser.json());
 router.use(
