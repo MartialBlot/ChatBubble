@@ -133,7 +133,7 @@ const Profile = () => {
         <div className="overlay">
           <div className="overlay-panel overlay-right">
             <h1>Go back to chat</h1>
-            <Link to="/chat">
+            <Link to="/">
               <button className="ghost" id="signIn">
                 Chat
               </button>

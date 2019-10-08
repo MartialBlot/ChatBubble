@@ -3,7 +3,9 @@ import axios from "axios";
 const headers = {
   "Content-Type": "application/json"
 };
-const burl = "http://localhost:8000/api";
+let burl;
+if (process.env.CHATBUBBLE === "DEV") burl = "http://localhost:8000/api";
+else burl = "http://35.197.209.176:8000/api";
 
 export default {
   login: function(send) {

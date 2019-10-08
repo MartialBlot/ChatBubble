@@ -21,6 +21,9 @@ export const ChatComponent = () => {
   const [currentContact, setCurrentContact] = useState("");
   const [loading, setLoading] = useState(false);
   const [firstcontact, setFirstcontact] = useState(true);
+  const [sound, setSound] = useState(true);
+  const [soundoff, setSoundoff] = useState(false);
+
   let nbMessages = -1;
 
   //tempUser
@@ -134,11 +137,12 @@ export const ChatComponent = () => {
         ) {
           nbMessages = Object.entries(data.messages).length;
           setMessages(data.messages);
-          audio.play();
-          GetResponseNewMessage();
-        } else {
-          GetResponseNewMessage();
+          setSound(true);
+          // audio.play();
         }
+        GetResponseNewMessage();
+      } else {
+        GetResponseNewMessage();
       }
     } catch (error) {
       console.error(error);
@@ -181,6 +185,11 @@ export const ChatComponent = () => {
     ).scrollHeight;
   }
 
+  function DOFUCKINGSOUND() {
+    audio.play();
+    setSound(false);
+  }
+
   useEffect(() => {
     if (!API.isAuth()) {
       setAuth(false);
@@ -205,6 +214,8 @@ export const ChatComponent = () => {
     <div>
       {redirect ? <Redirect to="/" noThrow /> : null}
       {profile ? <Redirect to="/profile" noThrow /> : null}
+      {sound && !soundoff ? DOFUCKINGSOUND() : null}
+
       {loading ? (
         <Modal>
           <Loading />
@@ -226,6 +237,24 @@ export const ChatComponent = () => {
         >
           Settings
         </SettingsButton>
+        {soundoff ? (
+          <SettingsButton
+            onClick={() => {
+              setSound(false);
+              setSoundoff(!sound);
+            }}
+          >
+            Sound ON
+          </SettingsButton>
+        ) : (
+          <SettingsButton
+            onClick={() => {
+              setSoundoff(!sound);
+            }}
+          >
+            Sound OFF
+          </SettingsButton>
+        )}
       </WrapperCommand>
       <WrapperChat>
         {!auth ? <Redirect to="/signin" noThrow /> : null}
