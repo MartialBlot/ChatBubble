@@ -6,10 +6,12 @@
   "scripts": {
     "dev": "prettier \"./src/**/*.{js,html}\" --write && parcel \"./src/index.html\"",
     "build": "parcel build \"./src/index.html\"",
+    "serv": "nodemon ../chatbubble-api/index.js",
     "dev:mock": "cross-env PET_MOCK=mock npm run dev",
     "format": "prettier \"./src/**/*.{js,html}\" --write",
     "lint": "eslint \"./src/**/*.{js,jsx}\" --quiet",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "both": "concurrently \"npm run serv\" \"npm run dev\""
   },
   "keywords": [],
   "author": "",
@@ -37,6 +39,7 @@
     "babel-loader": "^8.0.6",
     "babel-plugin-emotion": "^10.0.19",
     "babel-preset-react-app": "^9.0.2",
+    "concurrently": "^5.0.0",
     "cross-env": "^6.0.0",
     "eslint": "^6.4.0",
     "eslint-config-prettier": "^6.3.0",

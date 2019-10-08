@@ -13,7 +13,7 @@ router.use(
 
 //Post message
 router.post("/messages", (req, res) => {
-  let message = req.body;s
+  let message = req.body;
   let messageKey = [message.from, message.to].sort().join("-");
 
   //Create unique id
@@ -46,6 +46,34 @@ router.get("/messages", (req, res) => {
   });
 });
 
+// router.get("/lol", (req, res) => {
+//   let ref = db.ref(`messages`);
+
+//   ref.on(
+//     "value",
+//     function(snapshot) {
+//       res.status(200).json({
+//         messages: snapshot.val(),
+//         success: true
+//       });
+//     },
+//     function(errorObject) {
+//       console.log("The read failed: " + errorObject.code);
+//     }
+//   );
+// });
+
+// router.get("/lol2", (req, res) => {
+//   let ref = db.ref(`messages`);
+
+//   ref.on("child_added", function(snapshot, prevChildKey) {
+//     var newPost = snapshot.val();
+//     // console.log(snapshot.val());
+//     console.log("NewID: " + ChildKey);
+//     console.log("Previous Post ID: " + prevChildKey);
+//   });
+// });
+
 //Get Messages
 router.get("/messages/:idUsers", (req, res) => {
   let users = req.params.idUsers;
@@ -59,29 +87,6 @@ router.get("/messages/:idUsers", (req, res) => {
     })
   );
 });
-
-// router.get("/users/:UserId/messages", (req, res) => {
-// 	let UserId = req.params.UserId;
-// 	db.ref(`messages`).once("value").then(v => {
-// 	console.log(v.val());
-// 	allmessages = v.val();
-// 	allmessages.map(contact => {
-// 		let users = contact.split("-");
-// 		if (users[0] === userId || users[1] === userId) {
-// 		  let i = users.indexOf(userId);
-// 		  users.splice(i, 1);
-// 		  userContact.push(users.join(""));
-// 		}
-		
-		
-// 	res.status(200).json({
-// 		nodeUsers: Object.keys(v.val()),
-// 		user: UserId,
-// 		statue: "Great work",
-// 		success: true
-// 	  });
-// 	});
-//   });
 
 //Delete message
 router.delete("/messages/:messageId", (req, res) => {
