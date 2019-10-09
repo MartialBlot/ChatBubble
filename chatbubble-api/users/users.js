@@ -59,7 +59,7 @@ var verifyemail = function(req, res, next) {
       }
       console.log("Email already exist !");
       return res.status(200).json({
-        status: "Email alreasy exist !",
+        status: "Email already exist !",
         success: false
       });
     })

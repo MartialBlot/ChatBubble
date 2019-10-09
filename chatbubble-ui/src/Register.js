@@ -27,10 +27,15 @@ const Register = () => {
       !password ||
       password.length === 0 ||
       !password2 ||
-      password2.length === 0 ||
-      password !== password2
+      password2.length === 0
     ) {
       setMessage("Please fill all the fields !");
+      setShowLoading(false);
+      setNotgood(true);
+      return;
+    }
+    if (password !== password2) {
+      setMessage("The two passwords don't match !");
       setShowLoading(false);
       setNotgood(true);
       return;
@@ -52,7 +57,6 @@ const Register = () => {
         } else {
           setMessage("Error, please try again !");
         }
-
         setShowLoading(false);
         setNotgood(true);
       }
