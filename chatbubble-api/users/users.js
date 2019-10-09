@@ -59,7 +59,7 @@ var verifyemail = function(req, res, next) {
       }
       console.log("Email already exist !");
       return res.status(200).json({
-        status: "Email alreay exist !",
+        status: "Email alreasy exist !",
         success: false
       });
     })
@@ -207,7 +207,7 @@ var putuserinbase = function(req, res) {
         };
         sgMail.send(msg);
         return res.status(200).json({
-          status: "Register successful!",
+          status: "Successfully registered !",
           success: true
         });
       }
