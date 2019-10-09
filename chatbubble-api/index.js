@@ -9,8 +9,9 @@ server.use(cors());
 const login = require("./users/login");
 const users = require("./users/users");
 const message = require("./chat/chat");
+const message2 = require("./chat/chatnico");
 
-server.use("/api", login, users, message);
+server.use("/api", login, users, message, message2);
 
 server.listen(PORT, () => {
   console.log(`Server Running on port: ${PORT}`);
