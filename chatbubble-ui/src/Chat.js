@@ -58,7 +58,6 @@ export const ChatComponent = () => {
   };
 
   const AddContact = async contact => {
-    // attention decale de 1 (je clique sur martial j'ai rien je reclique j'ai martial je clique sur nico j'ai martial etc...)
     try {
       let form = {
         to: contact,
@@ -118,6 +117,7 @@ export const ChatComponent = () => {
           setCurrentContact(userContact[0]);
           setFirstcontact(false);
         }
+        console.log(userContact);
         return setContacts(userContact);
       }
     } catch (error) {
@@ -129,15 +129,24 @@ export const ChatComponent = () => {
   const GetResponseNewMessage = async () => {
     try {
       let messageKey = [userId && userId, currentContact].sort().join("-");
+      // console.log("messageKey : ", messageKey);
       const { data } = await API.getMessages(messageKey);
       if (data.success) {
+        console.log("NBBBB ", Object.entries(data.messages).length);
         if (
           nbMessages !== Object.entries(data.messages).length &&
           typeof Object.entries(data.messages).length === "number"
         ) {
           nbMessages = Object.entries(data.messages).length;
           setMessages(data.messages);
-          setSound(true);
+          // console.log(Object.entries(data.messages)[nbMessages - 1][1].from);
+          if (
+            Object.entries(data.messages)[nbMessages - 1] &&
+            Object.entries(data.messages)[nbMessages - 1][1].from !== userId
+          ) {
+            // console.log(data.messages[nbMessages]);
+            setSound(true);
+          }
           // audio.play();
         }
         GetResponseNewMessage();
@@ -149,19 +158,19 @@ export const ChatComponent = () => {
     }
   };
 
-  const GetMessages = async () => {
-    try {
-      let messageKey = [userId && userId, currentContact].sort().join("-");
-      const { data } = await API.getMessages(messageKey);
-      if (data.success) {
-        nbMessages = Object.entries(data.messages).length;
-        setMessages(data.messages);
-        return GetResponseNewMessage();
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const GetMessages = async () => {
+  //   try {
+  //     let messageKey = [userId && userId, currentContact].sort().join("-");
+  //     const { data } = await API.getMessages(messageKey);
+  //     if (data.success) {
+  //       nbMessages = Object.entries(data.messages).length;
+  //       setMessages(data.messages);
+  //       return GetResponseNewMessage();
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   function handleSearch(event) {
     let value = event.target.value;
@@ -199,11 +208,11 @@ export const ChatComponent = () => {
     userId === "" ? setLoading(true) : setLoading(false);
     GetAllUsers();
     GetNodeUsers();
-    GetMessages();
+    GetResponseNewMessage();
   }, [userId, hiddenSearchFriend]);
 
   useEffect(() => {
-    GetMessages();
+    GetResponseNewMessage();
   }, [currentContact]);
 
   useEffect(() => {
@@ -302,7 +311,7 @@ export const ChatComponent = () => {
                           AddContact(user.login);
                           setCurrentContact(user.login);
                           GetNodeUsers();
-                          GetMessages();
+                          GetResponseNewMessage();
                         }}
                       >
                         <p>{user.login}</p>

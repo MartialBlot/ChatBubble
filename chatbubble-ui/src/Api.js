@@ -32,7 +32,7 @@ export default {
   },
 
   postMessage: function(send) {
-    console.log(send);
+    // console.log(send);
     return axios.post(`${burl}/messages`, send, {
       headers: headers
     });
