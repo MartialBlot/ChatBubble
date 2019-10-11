@@ -23,6 +23,7 @@ export const ChatComponent = () => {
   const [firstcontact, setFirstcontact] = useState(true);
   const [sound, setSound] = useState(true);
   const [soundoff, setSoundoff] = useState(false);
+  const [key, setKey] = useState("");
 
   let nbMessages = -1;
 
@@ -99,6 +100,15 @@ export const ChatComponent = () => {
     }
   };
 
+  const Launch = async () => {
+    try {
+      await GetAllUsers();
+      await GetNodeUsers();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const GetNodeUsers = async () => {
     try {
       const { data } = await API.getNodeUsers();
@@ -114,9 +124,12 @@ export const ChatComponent = () => {
           }
         });
         if (firstcontact) {
+          // console.log("USERCONTACT = ", userContact);
+
+          // console.log("FRISTCONTACT", userContact[0]);
           setCurrentContact(userContact[0]);
           // console.log(currentContact);
-          setFirstcontact(false);
+          if (userContact[0] !== "") setFirstcontact(false);
         }
         console.log(userContact);
         return setContacts(userContact);
@@ -130,7 +143,7 @@ export const ChatComponent = () => {
   const GetResponseNewMessage = async () => {
     try {
       let messageKey = [userId && userId, currentContact].sort().join("-");
-      // console.log("messageKey : ", messageKey);
+      // setKey(messageKey);
       const { data } = await API.getMessages(messageKey);
       if (data.success) {
         console.log("NBBBB ", Object.entries(data.messages).length);
@@ -162,14 +175,18 @@ export const ChatComponent = () => {
   const GetAllResponseNewMessage = async () => {
     try {
       let actualconv = [userId && userId, currentContact].sort().join("-");
-      console.log("CURRCONT ", currentContact);
-      console.log(actualconv);
+      console.log("messageKey : ", actualconv);
+
+      // console.log(key);
+      // console.log("CURRCONT ", currentContact);
+      // console.log(actualconv);
+      // setKey(actualconv);
       let messageKey = userId;
-      console.log("SALUT");
+      // console.log("SALUT");
       // console.log("messageKey : ", messageKey);
       const { data } = await API.getallmessages(messageKey);
       if (data.success) {
-        console.log("NBBBB ", Object.entries(data.messages[actualconv]).length);
+        // console.log("NBBBB ", Object.entries(data.messages[actualconv]).length);
         if (
           nbMessages !== Object.entries(data.messages[actualconv]).length &&
           typeof Object.entries(data.messages[actualconv]).length === "number"
@@ -186,9 +203,9 @@ export const ChatComponent = () => {
           }
           // audio.play();
         }
-        GetAllResponseNewMessage();
+        // GetAllResponseNewMessage();
       } else {
-        GetAllResponseNewMessage();
+        // GetAllResponseNewMessage();
       }
     } catch (error) {
       console.error(error);
@@ -243,19 +260,24 @@ export const ChatComponent = () => {
     let answer = decode(localStorage.getItem("token-chatbubble"));
     setUserId(answer.username);
     userId === "" ? setLoading(true) : setLoading(false);
-    GetAllUsers();
-    GetNodeUsers();
-    // GetAllResponseNewMessage();
+    Launch();
+    // GetAllUsers();
+    // GetNodeUsers();
+    // // GetAllResponseNewMessage();
   }, [userId, hiddenSearchFriend]);
+
+  useEffect(() => {
+    let actualconv = [userId && userId, currentContact].sort().join("-");
+    setKey(actualconv);
+    // console.log(key);
+    GetAllResponseNewMessage();
+    // GetResponseNewMessage();
+  }, [key, currentContact]);
 
   useEffect(() => {
     GetAllResponseNewMessage();
 
-    // GetResponseNewMessage();
-  }, [currentContact]);
-
-  useEffect(() => {
-    console.log(messages);
+    // console.log(messages);
     scroll();
   }, [messages]);
 
@@ -351,7 +373,9 @@ export const ChatComponent = () => {
                           AddContact(user.login);
                           setCurrentContact(user.login);
                           GetNodeUsers();
-                          GetResponseNewMessage();
+                          {
+                            /* GetResponseNewMessage(); */
+                          }
                         }}
                       >
                         <p>{user.login}</p>
@@ -387,36 +411,32 @@ export const ChatComponent = () => {
         </ContactList>
         <ConversationArea>
           <ConversationBox id={"conversation"}>
-            {messages["Martial(admin)-Nico(admin)"] &&
-            Object.entries(messages["Martial(admin)-Nico(admin)"]).length >
-              1 ? (
-              Object.entries(messages["Martial(admin)-Nico(admin)"]).map(
-                (content, index) => {
-                  if (content[1].message && content[1].message.length > 0) {
-                    if (
-                      content[1].from === userId &&
-                      content[1].to === currentContact
-                    ) {
-                      return (
-                        <MessageUser key={index}>
-                          <TextUserStyle>{content[1].message}</TextUserStyle>
-                        </MessageUser>
-                      );
-                    } else if (
-                      content[1].to === userId &&
-                      content[1].from === currentContact
-                    ) {
-                      return (
-                        <MessageContact key={index}>
-                          <TextContactStyle>
-                            {content[1].message}
-                          </TextContactStyle>
-                        </MessageContact>
-                      );
-                    }
+            {messages[key] && Object.entries(messages[key]).length > 1 ? (
+              Object.entries(messages[key]).map((content, index) => {
+                if (content[1].message && content[1].message.length > 0) {
+                  if (
+                    content[1].from === userId &&
+                    content[1].to === currentContact
+                  ) {
+                    return (
+                      <MessageUser key={index}>
+                        <TextUserStyle>{content[1].message}</TextUserStyle>
+                      </MessageUser>
+                    );
+                  } else if (
+                    content[1].to === userId &&
+                    content[1].from === currentContact
+                  ) {
+                    return (
+                      <MessageContact key={index}>
+                        <TextContactStyle>
+                          {content[1].message}
+                        </TextContactStyle>
+                      </MessageContact>
+                    );
                   }
                 }
-              )
+              })
             ) : (
               <MessageNoMessage>
                 Start typing a message to your new friend now :D
