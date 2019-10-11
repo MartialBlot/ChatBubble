@@ -4,7 +4,7 @@ export default class AuthHelperMethods {
   // Initializing important variables
   constructor(domain) {
     //THIS LINE IS ONLY USED WHEN YOU'RE IN PRODUCTION MODE!
-    this.domain = domain || "http://localhost:3000"; // API server domain
+    this.domain = domain || "http://localhost:8000"; // API server domain
   }
   login = (username, password) => {
     // Get a token from api server using the fetch api
@@ -41,17 +41,17 @@ export default class AuthHelperMethods {
 
   setToken = idToken => {
     // Saves user token to localStorage
-    localStorage.setItem("id_token", idToken);
+    localStorage.setItem("token-chatbubble", idToken);
   };
 
   getToken = () => {
     // Retrieves the user token from localStorage
-    return localStorage.getItem("id_token");
+    return localStorage.getItem("token-chatbubble");
   };
 
   logout = () => {
     // Clear user token and profile data from localStorage
-    localStorage.removeItem("id_token");
+    localStorage.removeItem("token-chatbubble");
   };
 
   getConfirm = () => {
@@ -94,9 +94,9 @@ export default class AuthHelperMethods {
   };
 }
 
-export const getConfirm = () => {
-  // Using jwt-decode npm package to decode the token
-  let answer = decode(this.getToken());
-  console.log("Recieved answer!");
-  return answer;
-};
+// export const getConfirm = () => {
+//   // Using jwt-decode npm package to decode the token
+//   let answer = decode(this.getToken());
+//   console.log("Recieved answer!");
+//   return answer;
+// };

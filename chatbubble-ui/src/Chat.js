@@ -135,7 +135,7 @@ export const ChatComponent = () => {
           // console.log(currentContact);
           if (userContact[0] !== "") setFirstcontact(false);
         }
-        console.log(userContact);
+        // console.log(userContact);
         return setContacts(userContact);
       }
     } catch (error) {
@@ -150,7 +150,7 @@ export const ChatComponent = () => {
       // setKey(messageKey);
       const { data } = await API.getMessages(messageKey);
       if (data.success) {
-        console.log("NBBBB ", Object.entries(data.messages).length);
+        // console.log("NBBBB ", Object.entries(data.messages).length);
         if (
           nbMessages !== Object.entries(data.messages).length &&
           typeof Object.entries(data.messages).length === "number"
@@ -182,8 +182,8 @@ export const ChatComponent = () => {
 
   const ClearNotif = contacttoclear => {
     let notifs = notifications;
-    console.log("Clearing...");
-    console.log("CONTACT TO CLEAR ", contacttoclear);
+    // console.log("Clearing...");
+    // console.log("CONTACT TO CLEAR ", contacttoclear);
     while (notifications.indexOf(contacttoclear) !== -1)
       notifications.splice(notifications.indexOf(contacttoclear), 1);
     setNotifications(notifs);
@@ -219,7 +219,7 @@ export const ChatComponent = () => {
               typeof Object.entries(data.messages[conv]).length === "number"
             ) {
               if (conv === actualconv) {
-                console.log("NEW MESSAGE CURRENT CONTACT");
+                // console.log("NEW MESSAGE CURRENT CONTACT");
                 // setMessages(data.messages);
               } else {
                 // console.log(contact2);
@@ -243,7 +243,7 @@ export const ChatComponent = () => {
         //   ][1].message
         // );
 
-        console.log("NOTIFF ARRAY : ", notifications);
+        // console.log("NOTIFF ARRAY : ", notifications);
         // setMessages(data.messages);
 
         // console.log(contacts);
