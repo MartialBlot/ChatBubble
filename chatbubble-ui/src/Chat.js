@@ -108,6 +108,9 @@ export const ChatComponent = () => {
       console.error(error);
     }
   };
+  const test = async () => {
+    await GetAllResponseNewMessage();
+  };
 
   const GetNodeUsers = async () => {
     try {
@@ -175,37 +178,38 @@ export const ChatComponent = () => {
   const GetAllResponseNewMessage = async () => {
     try {
       let actualconv = [userId && userId, currentContact].sort().join("-");
-      console.log("messageKey : ", actualconv);
-
-      // console.log(key);
-      // console.log("CURRCONT ", currentContact);
-      // console.log(actualconv);
-      // setKey(actualconv);
       let messageKey = userId;
-      // console.log("SALUT");
-      // console.log("messageKey : ", messageKey);
       const { data } = await API.getallmessages(messageKey);
       if (data.success) {
-        // console.log("NBBBB ", Object.entries(data.messages[actualconv]).length);
-        if (
-          nbMessages !== Object.entries(data.messages[actualconv]).length &&
-          typeof Object.entries(data.messages[actualconv]).length === "number"
-        ) {
-          nbMessages = Object.entries(data.messages[actualconv]).length;
-          setMessages(data.messages);
-          // console.log(Object.entries(data.messages)[nbMessages - 1][1].from);
+        contacts.forEach(function(contact2) {
+          let conv = [userId && userId, contact2].sort().join("-");
+          // console.log(conv);
+          // console.log(
+          //   Object.entries(data.messages[conv]).length,
+          //   Object.entries(messages[conv]).length
+          // );
           if (
-            Object.entries(data.messages)[nbMessages - 1] &&
-            Object.entries(data.messages)[nbMessages - 1][1].from !== userId
+            data.messages[conv] &&
+            Object.entries(data.messages[conv]).length !==
+              Object.entries(messages[conv]).length &&
+            typeof Object.entries(data.messages[conv]).length === "number"
           ) {
-            // console.log(data.messages[nbMessages]);
-            setSound(true);
+            // console.log(conv);
+            if (conv === actualconv) {
+              console.log("NEW MESSAGE CURRENT CONTACT");
+              // setMessages(data.messages);
+            } else console.log("NEW MESSAGE FROM", conv);
           }
-          // audio.play();
-        }
-        // GetAllResponseNewMessage();
-      } else {
-        // GetAllResponseNewMessage();
+        });
+        setMessages(data.messages);
+
+        // console.log(contacts);
+        // console.log("conv", conv);
+        // console.log(
+        //   "data.messages[conv]",
+        //   Object.entries(data.messages[conv]).length
+        // );
+        // console.log("messages[conv]", Object.entries(messages[conv]).length);
       }
     } catch (error) {
       console.error(error);
@@ -275,7 +279,7 @@ export const ChatComponent = () => {
   }, [key, currentContact]);
 
   useEffect(() => {
-    GetAllResponseNewMessage();
+    test();
 
     // console.log(messages);
     scroll();
