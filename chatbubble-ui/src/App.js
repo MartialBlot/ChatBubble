@@ -26,7 +26,7 @@ const App = () => {
           <Profile path="/profile" />
           <Register path="/register" />
           <Login path="/login" />
-          <Loading path="/loading" />
+          {/* <Loading path="/loading" /> */}
           <VerifyEmail path="/verify/:identity" />
         </Router>
       </div>

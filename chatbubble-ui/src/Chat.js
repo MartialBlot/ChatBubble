@@ -46,7 +46,7 @@ export const ChatComponent = () => {
         to: currentContact,
         from: userId,
         message: message && message,
-        date: "10/10/2019"
+        date: new Date().valueOf()
       };
       const { data } = await API.postMessage(form);
       if (data.success) {
@@ -115,6 +115,7 @@ export const ChatComponent = () => {
         });
         if (firstcontact) {
           setCurrentContact(userContact[0]);
+          // console.log(currentContact);
           setFirstcontact(false);
         }
         console.log(userContact);
@@ -152,6 +153,42 @@ export const ChatComponent = () => {
         GetResponseNewMessage();
       } else {
         GetResponseNewMessage();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const GetAllResponseNewMessage = async () => {
+    try {
+      let actualconv = [userId && userId, currentContact].sort().join("-");
+      console.log("CURRCONT ", currentContact);
+      console.log(actualconv);
+      let messageKey = userId;
+      console.log("SALUT");
+      // console.log("messageKey : ", messageKey);
+      const { data } = await API.getallmessages(messageKey);
+      if (data.success) {
+        console.log("NBBBB ", Object.entries(data.messages[actualconv]).length);
+        if (
+          nbMessages !== Object.entries(data.messages[actualconv]).length &&
+          typeof Object.entries(data.messages[actualconv]).length === "number"
+        ) {
+          nbMessages = Object.entries(data.messages[actualconv]).length;
+          setMessages(data.messages);
+          // console.log(Object.entries(data.messages)[nbMessages - 1][1].from);
+          if (
+            Object.entries(data.messages)[nbMessages - 1] &&
+            Object.entries(data.messages)[nbMessages - 1][1].from !== userId
+          ) {
+            // console.log(data.messages[nbMessages]);
+            setSound(true);
+          }
+          // audio.play();
+        }
+        GetAllResponseNewMessage();
+      } else {
+        GetAllResponseNewMessage();
       }
     } catch (error) {
       console.error(error);
@@ -208,14 +245,17 @@ export const ChatComponent = () => {
     userId === "" ? setLoading(true) : setLoading(false);
     GetAllUsers();
     GetNodeUsers();
-    GetResponseNewMessage();
+    // GetAllResponseNewMessage();
   }, [userId, hiddenSearchFriend]);
 
   useEffect(() => {
-    GetResponseNewMessage();
+    GetAllResponseNewMessage();
+
+    // GetResponseNewMessage();
   }, [currentContact]);
 
   useEffect(() => {
+    console.log(messages);
     scroll();
   }, [messages]);
 
@@ -347,32 +387,36 @@ export const ChatComponent = () => {
         </ContactList>
         <ConversationArea>
           <ConversationBox id={"conversation"}>
-            {messages && Object.entries(messages).length > 1 ? (
-              Object.entries(messages).map((content, index) => {
-                if (content[1].message && content[1].message.length > 0) {
-                  if (
-                    content[1].from === userId &&
-                    content[1].to === currentContact
-                  ) {
-                    return (
-                      <MessageUser key={index}>
-                        <TextUserStyle>{content[1].message}</TextUserStyle>
-                      </MessageUser>
-                    );
-                  } else if (
-                    content[1].to === userId &&
-                    content[1].from === currentContact
-                  ) {
-                    return (
-                      <MessageContact key={index}>
-                        <TextContactStyle>
-                          {content[1].message}
-                        </TextContactStyle>
-                      </MessageContact>
-                    );
+            {messages["Martial(admin)-Nico(admin)"] &&
+            Object.entries(messages["Martial(admin)-Nico(admin)"]).length >
+              1 ? (
+              Object.entries(messages["Martial(admin)-Nico(admin)"]).map(
+                (content, index) => {
+                  if (content[1].message && content[1].message.length > 0) {
+                    if (
+                      content[1].from === userId &&
+                      content[1].to === currentContact
+                    ) {
+                      return (
+                        <MessageUser key={index}>
+                          <TextUserStyle>{content[1].message}</TextUserStyle>
+                        </MessageUser>
+                      );
+                    } else if (
+                      content[1].to === userId &&
+                      content[1].from === currentContact
+                    ) {
+                      return (
+                        <MessageContact key={index}>
+                          <TextContactStyle>
+                            {content[1].message}
+                          </TextContactStyle>
+                        </MessageContact>
+                      );
+                    }
                   }
                 }
-              })
+              )
             ) : (
               <MessageNoMessage>
                 Start typing a message to your new friend now :D

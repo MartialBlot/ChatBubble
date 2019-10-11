@@ -31,7 +31,7 @@ router.post("/login", (req, res) => {
   //   .catch(function(error) {
   //     console.log("Error creating custom token:", error);
   //   });
-
+  console.log("hi");
   let user = path
     .get()
     .then(doc => {

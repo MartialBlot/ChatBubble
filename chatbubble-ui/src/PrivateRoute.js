@@ -1,7 +1,7 @@
 //save a integrer sur route a privatiser
 
 import React from "react";
-import API from "../utils/API.js";
+import API from "../Api.js";
 import { Route, Redirect } from "react-router-dom";
 
 export const PrivateRoute = ({ component: Component, ...rest }) => (

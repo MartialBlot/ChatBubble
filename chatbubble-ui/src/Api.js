@@ -9,7 +9,6 @@ else burl = "http://35.197.209.176:8000/api";
 
 export default {
   login: function(send) {
-    console.log("lol");
     return axios.post(`${burl}/login`, send, {
       headers: headers
     });
@@ -44,6 +43,10 @@ export default {
 
   getNodeUsers: function() {
     return axios.get(`${burl}/messages`);
+  },
+
+  getallmessages: function(user) {
+    return axios.get(`${burl}/allmessages/${user}`);
   },
 
   getMessages: function(users) {
