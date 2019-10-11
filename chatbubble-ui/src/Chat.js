@@ -359,7 +359,7 @@ export const ChatComponent = () => {
           <SettingsButton
             onClick={() => {
               setSound(false);
-              setSoundoff(!sound);
+              setSoundoff(!soundoff);
             }}
           >
             Sound ON
@@ -367,7 +367,7 @@ export const ChatComponent = () => {
         ) : (
           <SettingsButton
             onClick={() => {
-              setSoundoff(!sound);
+              setSoundoff(!soundoff);
             }}
           >
             Sound OFF
