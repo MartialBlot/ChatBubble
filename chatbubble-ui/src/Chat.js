@@ -410,6 +410,20 @@ export const ChatComponent = () => {
                                 [userId && userId, contact].sort().join("-")
                               ]
                             ).length - 1
+                          ][1].from
+                        }
+                        {" : "}
+                        {
+                          Object.entries(
+                            messages[
+                              [userId && userId, contact].sort().join("-")
+                            ]
+                          )[
+                            Object.entries(
+                              messages[
+                                [userId && userId, contact].sort().join("-")
+                              ]
+                            ).length - 1
                           ][1].message
                         }
                       </ContactBoxCurr>
@@ -442,6 +456,20 @@ export const ChatComponent = () => {
                                 [userId && userId, contact].sort().join("-")
                               ]
                             ).length - 1
+                          ][1].from
+                        }
+                        {" : "}
+                        {
+                          Object.entries(
+                            messages[
+                              [userId && userId, contact].sort().join("-")
+                            ]
+                          )[
+                            Object.entries(
+                              messages[
+                                [userId && userId, contact].sort().join("-")
+                              ]
+                            ).length - 1
                           ][1].message
                         }
                       </ContactBoxNotif>
@@ -462,6 +490,20 @@ export const ChatComponent = () => {
                       >
                         {contact}
                         <br />
+                        {
+                          Object.entries(
+                            messages[
+                              [userId && userId, contact].sort().join("-")
+                            ]
+                          )[
+                            Object.entries(
+                              messages[
+                                [userId && userId, contact].sort().join("-")
+                              ]
+                            ).length - 1
+                          ][1].from
+                        }
+                        {" : "}
                         {
                           Object.entries(
                             messages[
