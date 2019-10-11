@@ -24,6 +24,7 @@ export const ChatComponent = () => {
   const [sound, setSound] = useState(true);
   const [soundoff, setSoundoff] = useState(false);
   const [key, setKey] = useState("");
+  const [notifications, setNotifications] = useState([]);
 
   let nbMessages = -1;
 
@@ -175,33 +176,75 @@ export const ChatComponent = () => {
     }
   };
 
+  function arrayUnset(array, value) {
+    array.splice(array.indexOf(value), 1);
+  }
+
+  const ClearNotif = contacttoclear => {
+    let notifs = notifications;
+    console.log("Clearing...");
+    console.log("CONTACT TO CLEAR ", contacttoclear);
+    while (notifications.indexOf(contacttoclear) !== -1)
+      notifications.splice(notifications.indexOf(contacttoclear), 1);
+    setNotifications(notifs);
+    // notifications.forEach(function(item, index) {
+    //   console.log(item);
+    //   if (item === contacttoclear) {
+    //     arrayUnset(notifications, contacttoclear);
+    //     // notifications.splice(index, index + 1);
+    //   }
+    // });
+  };
+  //   let i = 0;
+  //   // notifications.forEach(function(element, i) {
+  //     // if (element === contacttoclear)
+  //     // notifications.splice(i, i+1);}
+  //   }
+  // }
+
   const GetAllResponseNewMessage = async () => {
     try {
       let actualconv = [userId && userId, currentContact].sort().join("-");
       let messageKey = userId;
       const { data } = await API.getallmessages(messageKey);
       if (data.success) {
-        contacts.forEach(function(contact2) {
-          let conv = [userId && userId, contact2].sort().join("-");
-          // console.log(conv);
-          // console.log(
-          //   Object.entries(data.messages[conv]).length,
-          //   Object.entries(messages[conv]).length
-          // );
-          if (
-            data.messages[conv] &&
-            Object.entries(data.messages[conv]).length !==
-              Object.entries(messages[conv]).length &&
-            typeof Object.entries(data.messages[conv]).length === "number"
-          ) {
-            // console.log(conv);
-            if (conv === actualconv) {
-              console.log("NEW MESSAGE CURRENT CONTACT");
-              // setMessages(data.messages);
-            } else console.log("NEW MESSAGE FROM", conv);
-          }
-        });
+        if (messages === []) setMessages(data.messages);
+        else {
+          contacts.forEach(function(contact2) {
+            let conv = [userId && userId, contact2].sort().join("-");
+            if (
+              data.messages[conv] &&
+              Object.entries(data.messages[conv]).length !==
+                Object.entries(messages[conv]).length &&
+              typeof Object.entries(data.messages[conv]).length === "number"
+            ) {
+              if (conv === actualconv) {
+                console.log("NEW MESSAGE CURRENT CONTACT");
+                // setMessages(data.messages);
+              } else {
+                // console.log(contact2);
+                // console.log(notifications.indexOf(contact2));
+                setSound(true);
+                if (notifications.indexOf(contact2) === -1) {
+                  setNotifications(notifications => [
+                    ...notifications,
+                    contact2
+                  ]);
+                }
+                // setMessages(data.messages);
+              }
+            }
+          });
+        }
         setMessages(data.messages);
+        // console.log(
+        //   Object.entries(messages[actualconv])[
+        //     Object.entries(messages[actualconv]).length - 1
+        //   ][1].message
+        // );
+
+        console.log("NOTIFF ARRAY : ", notifications);
+        // setMessages(data.messages);
 
         // console.log(contacts);
         // console.log("conv", conv);
@@ -339,26 +382,99 @@ export const ChatComponent = () => {
             {hiddenSearchFriend
               ? contacts &&
                 contacts.map((contact, index) => {
-                  if (contact === currentContact) {
+                  if (
+                    contact === currentContact &&
+                    messages[[userId && userId, contact].sort().join("-")] &&
+                    Object.entries(
+                      messages[[userId && userId, contact].sort().join("-")]
+                    ).length > 1
+                  ) {
                     return (
                       <ContactBoxCurr
                         key={index}
                         onClick={() => {
                           setCurrentContact(contact);
+                          ClearNotif(contact);
                         }}
                       >
                         {contact}
+                        <br />
+                        {
+                          Object.entries(
+                            messages[
+                              [userId && userId, contact].sort().join("-")
+                            ]
+                          )[
+                            Object.entries(
+                              messages[
+                                [userId && userId, contact].sort().join("-")
+                              ]
+                            ).length - 1
+                          ][1].message
+                        }
                       </ContactBoxCurr>
                     );
-                  } else {
+                  } else if (
+                    notifications.indexOf(contact) !== -1 &&
+                    messages[[userId && userId, contact].sort().join("-")] &&
+                    Object.entries(
+                      messages[[userId && userId, contact].sort().join("-")]
+                    ).length > 1
+                  ) {
+                    return (
+                      <ContactBoxNotif
+                        key={index}
+                        onClick={() => {
+                          setCurrentContact(contact);
+                          ClearNotif(contact);
+                        }}
+                      >
+                        {contact}
+                        <br />
+                        {
+                          Object.entries(
+                            messages[
+                              [userId && userId, contact].sort().join("-")
+                            ]
+                          )[
+                            Object.entries(
+                              messages[
+                                [userId && userId, contact].sort().join("-")
+                              ]
+                            ).length - 1
+                          ][1].message
+                        }
+                      </ContactBoxNotif>
+                    );
+                  } else if (
+                    messages[[userId && userId, contact].sort().join("-")] &&
+                    Object.entries(
+                      messages[[userId && userId, contact].sort().join("-")]
+                    ).length > 1
+                  ) {
                     return (
                       <ContactBox
                         key={index}
                         onClick={() => {
                           setCurrentContact(contact);
+                          ClearNotif(contact);
                         }}
                       >
                         {contact}
+                        <br />
+                        {
+                          Object.entries(
+                            messages[
+                              [userId && userId, contact].sort().join("-")
+                            ]
+                          )[
+                            Object.entries(
+                              messages[
+                                [userId && userId, contact].sort().join("-")
+                              ]
+                            ).length - 1
+                          ][1].message
+                        }
                       </ContactBox>
                     );
                   }
@@ -484,6 +600,15 @@ const ContactBoxCurr = styled.div`
   border-radius: 9px;
   text-align: center;
   background-color: #32cd32;
+  cursor: pointer;
+`;
+
+const ContactBoxNotif = styled.div`
+  border: 1px solid grey;
+  padding: 10px;
+  border-radius: 9px;
+  text-align: center;
+  background-color: blue;
   cursor: pointer;
 `;
 
